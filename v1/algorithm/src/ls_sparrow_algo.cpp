@@ -124,6 +124,12 @@ eLsAlgoStatus  lss_module_cicdec(void* hInstance, tLsBufferInfo* pInputOffsets, 
 eLsAlgoStatus  lss_module_genfiraxi(void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset)  
 {
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
+	genfiraxi_instance *pFirModule = (genfiraxi_instance*)hInstance;
+	tSamples* pOutput = &aIOBufferArray[pOutputOffset[0].nBufferOffset][0];
+	tSamples* pInput = &aIOBufferArray[pInputOffsets[0].nBufferOffset][0];
+
+	pFirModule->pFir->process(pInput, pOutput, TICK_SZ);
+
 	return status;
 }
 eLsAlgoStatus  lss_module_decim(void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset)	   
