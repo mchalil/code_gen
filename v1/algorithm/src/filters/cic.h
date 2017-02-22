@@ -15,6 +15,6 @@ class cic
 public:
 	cic(Integer BlockSz, Integer NN, Integer RR, Integer MM);
 	~cic();
-	Integer process(Integer *pX, Integer *pY);
+	Integer process(tFract32 *pX, tFract32 *pY);
 };
 

@@ -3,14 +3,15 @@
 
 class fir
 {
-	int *pState;
-	int *pCoef;
+	tSamples *pState;
+	tFract32 *pCoef;
 public:
-	int nOrder;
-	fir(int Order, int* pCoef);
-	int process(int *pX, int* pY, int Samples );
-	int State_write(int Sample);
-	int fir::coef_read(char *fileName, int nSize,  int *pC);
+	Integer nOrder;
+	fir(Integer Order, tFract32* pCoef);
+	Integer process(tSamples *pX, tSamples* pCoef, Integer nCount);
+	Integer fir::StateAddSamples(tSamples* pY, Integer nCount, Integer Offset);
+	Integer fir::StateShiftSamplesLeft(Integer nCount, Integer Offset);
+	Integer fir::coef_read(char *fileName, Integer nSize, tFract32 *pCoef);
 	~fir();
 };
 
