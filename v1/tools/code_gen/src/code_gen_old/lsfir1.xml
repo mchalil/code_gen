@@ -1,0 +1,19 @@
+<lsFir xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Set1</Name>
+  <nChannels>1</nChannels>
+  <Bits>18</Bits>
+  <Coefficients>
+    <int>8</int>
+    <int>20</int>
+    <int>16</int>
+    <int>16</int>
+    <int>12</int>
+    <int>12</int>
+    <int>16</int>
+    <int>16</int>
+    <int>4</int>
+    <int>4</int>
+    <int>4</int>
+  </Coefficients>
+</lsFir>
