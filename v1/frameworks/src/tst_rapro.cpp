@@ -8,8 +8,8 @@
 extern genfiraxi_instance genfiraxi_ps_pfir;
 extern genfiraxi_instance genfiraxi_ps_cfir;
 
-tParamFract mycoeff_pfir[48];
-tParamFract mycoeff_cfir[24];
+extern tParamFract mycoeff_pfir[48];
+extern tParamFract mycoeff_cfir[24];
 
 void main()
 {
