@@ -23,6 +23,8 @@ int fir::coef_read(char *fileName, int nSize, int *pC)
 }
 #endif
 
+#define TST_FIR
+
 #define FIR_MULT(a, b) ((a)*(b))
 
 
@@ -91,3 +93,41 @@ fir::~fir()
 {
 	delete(pState);
 }
+#ifdef TST_FIR
+Integer fir::tst()
+{
+	Integer ret = 0;
+	tFract32 aFIRCoef[] = {1, 2, 3, 2, 1};
+	tSamples aSamples[] = {1,2, 3, 4, 5, 1, 1, 2, 1,2, 3, 4, 5, 2, 1 , 4, 5, 1,2, 3, 4, 5, 1, 3 , 1,2, 3, 2, 5, 1, 1 };
+	tSamples aSamplesOut[24];
+
+	fir *pfir = new fir(5, aFIRCoef);
+	int n = 6;
+	int idx = 0;
+	int frms = 4;
+	Integer expectedChecSum = 536; // c = conv(a,b); s= sum(c(1:4*6)) 
+	Integer checkSum = 0;
+
+	for (int i = 0; i < frms; i++) {
+		pfir->process(&aSamples[idx], &aSamplesOut[idx], 6);
+		idx += n;
+	}
+	for (idx = 0; idx < frms*n; idx++)
+	{
+		checkSum += aSamplesOut[idx];
+	}
+	if (checkSum != expectedChecSum)
+		return checkSum - expectedChecSum;
+
+	return 0;
+}
+int main()
+{
+	int result = fir::tst();
+	if (result != 0)
+	{
+		printf("fir test failed\n");
+	}
+	return result;
+}
+#endif

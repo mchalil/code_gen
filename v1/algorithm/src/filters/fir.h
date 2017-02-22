@@ -11,7 +11,7 @@ public:
 	Integer process(tSamples *pX, tSamples* pCoef, Integer nCount);
 	Integer fir::StateAddSamples(tSamples* pY, Integer nCount, Integer Offset);
 	Integer fir::StateShiftSamplesLeft(Integer nCount, Integer Offset);
-	Integer fir::coef_read(char *fileName, Integer nSize, tFract32 *pCoef);
+	static Integer fir::tst();
 	~fir();
 };
 

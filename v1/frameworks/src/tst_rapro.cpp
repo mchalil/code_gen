@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 
-void main()
+void main1()
 {
 	int test1 = 12;
 

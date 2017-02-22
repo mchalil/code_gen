@@ -1,6 +1,5 @@
 
 #include "ls_code_gen_api.h"
-
 #include "cic.h"
 
 #define INITIAL_SHIFT (0)
@@ -47,10 +46,10 @@ cic::cic(Integer BlockSz, Integer NN, Integer RR, Integer MM)
 #endif // ENABLE_PRUNING
 }
 
-
 cic::~cic()
 {
 }
+
 IndexInt cic::process(tFract32 *pX, tFract32 *pY)
 {
 	IndexInt countOut = 0;
