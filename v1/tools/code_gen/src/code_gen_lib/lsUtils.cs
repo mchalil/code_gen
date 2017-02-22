@@ -9,7 +9,6 @@ namespace code_gen_lib
 {
     static class lsUtils
     {
-
         static public string getPinPrefix(string pinName)
         {
             string[] ss = pinName.Split('-');
