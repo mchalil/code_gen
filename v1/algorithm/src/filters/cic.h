@@ -16,5 +16,6 @@ public:
 	cic(Integer BlockSz, Integer NN, Integer RR, Integer MM);
 	~cic();
 	Integer process(tFract32 *pX, tFract32 *pY);
+	static Integer tst();
 };
 

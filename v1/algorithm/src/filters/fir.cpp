@@ -1,7 +1,6 @@
 #include "ls_code_gen_api.h"
 #include "fir.h"
 #include "ls_math.h"
-#include <stdio.h>
 
 #if false
 int fir::coef_read(char *fileName, int nSize, int *pC)
@@ -23,7 +22,7 @@ int fir::coef_read(char *fileName, int nSize, int *pC)
 }
 #endif
 
-#define TST_FIR
+// #define TST_FIR
 
 #define FIR_MULT(a, b) ((a)*(b))
 
@@ -93,7 +92,13 @@ fir::~fir()
 {
 	delete(pState);
 }
-#ifdef TST_FIR
+#ifndef TST_FIR
+Integer fir::tst() {
+	return 0;
+}
+#else
+#include <stdio.h>
+
 Integer fir::tst()
 {
 	Integer ret = 0;
