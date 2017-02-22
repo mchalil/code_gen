@@ -1,3 +1,5 @@
+#include "ls_code_gen_api.h"
+
 #include "fir.h"
 
 #include "ls_math.h"
@@ -22,7 +24,7 @@ int fir::coef_read(char *fileName, int nSize, int *pC)
 }
 #endif
 
-fir::fir(int Order, int* pCoef1)
+fir::fir(Integer Order, int* pCoef1)
 {
 	nOrder = Order;
 	pState = new int[Order+1];

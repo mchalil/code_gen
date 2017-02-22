@@ -308,16 +308,18 @@ int ddc_process(int argc, char *argv[])
 
 
 #endif
+#include "ls_code_gen_api.h"
+
 #include "cic.h"
 
-cic::cic(int BlockSz, int NN, int RR, int MM)
+cic::cic(Integer BlockSz, Integer NN, Integer RR, Integer MM)
 {
 	nCount = 0;
 	BlockSize = BlockSz;
 	N = NN;
 	M = MM;
 	R = RR;
-	for (int i = 0; i < MAX_STAGES; i++)
+	for (IndexInt i = 0; i < MAX_STAGES; i++)
 	{
 		State[i] = 0;
 	}
@@ -354,14 +356,14 @@ cic::cic(int BlockSz, int NN, int RR, int MM)
 cic::~cic()
 {
 }
-int cic::process(int *pX, int *pY)
+IndexInt cic::process(tFract32 *pX, tFract32 *pY)
 {
-	int countOut = 0;
-	for (int i = 0; i < BlockSize; i++)
+	IndexInt countOut = 0;
+	for (IndexInt i = 0; i < BlockSize; i++)
 	{
 		State[1] += pX[i]>> pruning[0];
 #if 1
-		for (int j = 1; j < N; j++) {
+		for (IndexInt j = 1; j < N; j++) {
 			State[j + 1] += State[j];
 		}
 #else
@@ -391,7 +393,7 @@ int cic::process(int *pX, int *pY)
 		{
 			delayBuff[1] = State[N - 1]; // inp to the first comb
 
-			for (int j = 1; j <= N; j++) {
+			for (IndexInt j = 1; j <= N; j++) {
 				// using  matlab indexing. j = 0 is unused
 				delayBuff[j + 1] = delayBuff[j] - compOut[j];
 				compOut[j] = delayBuff[j];

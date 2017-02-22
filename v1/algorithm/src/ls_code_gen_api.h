@@ -4,7 +4,11 @@ typedef double tSamples;
 typedef double tParamFlt;
 typedef int tParamInt;
 typedef int tParamFract;
+typedef int tFract32;
 typedef bool Bool;
+typedef __int64 tFract64;
+typedef __int64 tInt64;
+
 
 typedef int Integer;
 typedef int IndexInt;

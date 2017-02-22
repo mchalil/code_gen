@@ -4,17 +4,17 @@
 
 class cic
 {
-	__int64 State[MAX_STAGES];
-	__int64 compOut[MAX_STAGES];
-	__int64 delayBuff[MAX_STAGES];
+	tFract64 State[MAX_STAGES];
+	tFract64 compOut[MAX_STAGES];
+	tFract64 delayBuff[MAX_STAGES];
 
-	int nCount;
-	int BlockSize;
-	int N, R, M;
-	int pruning[MAX_PRUNING_STAGES];
+	Integer nCount;
+	Integer BlockSize;
+	Integer N, R, M;
+	Integer pruning[MAX_PRUNING_STAGES];
 public:
-	cic(int BlockSz, int NN, int RR, int MM);
+	cic(Integer BlockSz, Integer NN, Integer RR, Integer MM);
 	~cic();
-	int process(int *pX, int *pY);
+	Integer process(Integer *pX, Integer *pY);
 };
 

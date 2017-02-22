@@ -1,5 +1,6 @@
 #pragma once
 #define MAX_FIR_ORDER (512) // todo
+
 class fir
 {
 	int *pState;
