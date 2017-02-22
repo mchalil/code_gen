@@ -7,6 +7,7 @@ typedef int tParamFract;
 typedef bool Bool;
 
 typedef int Integer;
+typedef int IndexInt;
 
 typedef enum
 {
