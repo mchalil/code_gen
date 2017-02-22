@@ -44,11 +44,18 @@ eLsAlgoStatus  lss_module_nco_bram_init(void* hInstance)
 eLsAlgoStatus  lss_module_cicdec_init(void* hInstance)
 {
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
+	cicdec_instance *pCicModule = (cicdec_instance*)hInstance;
+	pCicModule->pCic = new cic(TICK_SZ, pCicModule->nrate, pCicModule->nstage, 1);
 	return status;
 }
 eLsAlgoStatus  lss_module_genfiraxi_init(void* hInstance)
 {
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
+	genfiraxi_instance *pFirModule = (genfiraxi_instance*)hInstance;
+
+	pFirModule->pFir = new fir(5, pFirModule->pFIRCoeff);
+
+
 	return status;
 }
 eLsAlgoStatus  lss_module_decim_init(void* hInstance)

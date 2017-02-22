@@ -2,7 +2,7 @@
 #include "ls_code_gen_api.h"
 #include "cic.h"
 
-#define TST_CIC 
+//#define TST_CIC 
 
 #define INITIAL_SHIFT (0)
 #define ENABLE_PRUNING 
@@ -54,7 +54,7 @@ cic::~cic()
 {
 }
 
-IndexInt cic::process(tFract32 *pX, tFract32 *pY)
+IndexInt cic::process(tSamples *pX, tSamples *pY)
 {
 	IndexInt countOut = 0;
 	for (IndexInt i = 0; i < BlockSize; i++)

@@ -64,6 +64,7 @@ typedef struct _root_sumsquares_instance
 }root_sumsquares_instance;
 
 #include "cic.h"
+#include "fir.h"
 
 typedef struct 
 {
@@ -79,6 +80,8 @@ typedef struct {
 	Integer sample_width;
 	Integer coeff_width;
 	Integer ntap;
+	tParamFract *pFIRCoeff;
+	fir *pFir;
 }genfiraxi_instance;
 
 typedef struct {

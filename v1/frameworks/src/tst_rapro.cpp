@@ -3,8 +3,15 @@
 #include "hw_sw_ddc_software_ddc_api.h"
 #include <stdio.h>
 
+#include "ls_sparrow_algo.h"
 
-void main1()
+extern genfiraxi_instance genfiraxi_ps_pfir;
+extern genfiraxi_instance genfiraxi_ps_cfir;
+tParamFract pPfirCoeff[48];
+tParamFract pCfirCoeff[24];
+
+
+void main()
 {
 	int test1 = 12;
 
@@ -14,6 +21,10 @@ void main1()
 	printf("testing\n");
 	fopen_s(&fp_out, outfileName0, "w");
 	int i = 0;
+	
+	genfiraxi_ps_pfir.pFIRCoeff = pPfirCoeff;
+	genfiraxi_ps_cfir.pFIRCoeff = pCfirCoeff;
+	
 	INIT_CALL(ddc, hw_sw_ddc_software);
 
 	for (int frm = 0; frm < 10; frm++)

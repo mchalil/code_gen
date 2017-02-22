@@ -112,6 +112,13 @@ eLsAlgoStatus  lss_module_nco_bram(void* hInstance, tLsBufferInfo* pInputOffsets
 eLsAlgoStatus  lss_module_cicdec(void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset)	   
 {
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
+
+	cicdec_instance *pCicModule = (cicdec_instance*)hInstance;
+	tSamples* pOutput = &aIOBufferArray[pOutputOffset[0].nBufferOffset][0];
+	tSamples* pInput = &aIOBufferArray[pInputOffsets[0].nBufferOffset][0];
+
+	pCicModule->pCic->process(pInput, pOutput);
+
 	return status;
 }
 eLsAlgoStatus  lss_module_genfiraxi(void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset)  
