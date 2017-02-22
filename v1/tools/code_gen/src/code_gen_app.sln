@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ext_programs", "ext_program
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "code_gen_gui", "code_gen_gui\code_gen_gui.csproj", "{F3EA2672-A148-4994-98DE-FABB91C27BFF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tst_rapro_host", "..\..\..\..\..\..\Sparrow\v1\algorithm\bld\tst_rapro_host\tst_rapro_host.vcxproj", "{3D661FC2-D179-4FCA-BDAD-B06B22FC4A06}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "tst_rapro_host", "..\..\..\frameworks\rapro\bld\tst_rapro_host\tst_rapro_host.vcxproj", "{3D661FC2-D179-4FCA-BDAD-B06B22FC4A06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
