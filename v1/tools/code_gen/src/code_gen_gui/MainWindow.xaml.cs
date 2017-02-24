@@ -115,7 +115,6 @@
 
         private void btnExit_Click(object sender, ExecutedRoutedEventArgs e)
         {
-            sparrow_code_gen.Properties.Settings.Default.WorkingDir = txtWorkingDirectory.Text;
             sparrow_code_gen.Properties.Settings.Default.InputDir = txtSSCHFile.Text;
             sparrow_code_gen.Properties.Settings.Default.Save();
             this.Close();
@@ -144,7 +143,6 @@
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            txtWorkingDirectory.Text = sparrow_code_gen.Properties.Settings.Default.WorkingDir;
             txtSSCHFile.Text = sparrow_code_gen.Properties.Settings.Default.InputDir;
         }
 
@@ -152,10 +150,11 @@
         {
             var dialog = new FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result.ToString() == "OK")
-                txtWorkingDirectory.Text = dialog.SelectedPath.ToString();
         }
 
- 
+        private void txtPreview_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+
+        }
     }
 }

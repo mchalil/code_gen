@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,12 +10,14 @@ namespace ext_programs
 {
     public class ExtPrograms
     {
+        public string version;
         string current_dir;
         public ExtPrograms(string currentDir)
         {
             string app_name = System.Reflection.Assembly.GetExecutingAssembly().Location;
             string app_path = Path.GetDirectoryName(app_name);
             sigma_name = Path.Combine(app_path, "..\\sigma\\sigma.exe");
+            version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             current_dir = currentDir;
         }

@@ -7,7 +7,7 @@
         Title="Logosent Sparrow Code Generator"
         Background="{DynamicResource ToolbarBrush}"  Icon="Images/logo.ico"
         Loaded="MainWindow_Loaded" >
-    
+
     <Window.Resources>
         <RoutedUICommand x:Key="MyCommand1" Text="Text" />
         <RoutedUICommand x:Key="MyCommand2" Text="Another Text" />
@@ -15,7 +15,7 @@
         <RoutedUICommand x:Key="MyCommand4" Text="Another Text" />
         <RoutedUICommand x:Key="MyCommand5" Text="Another Text" />
         <RoutedUICommand x:Key="MyCommand6" Text="Select Working Directory" />
-        <BooleanToVisibilityConverter x:Key="b2v"/> 
+        <BooleanToVisibilityConverter x:Key="b2v"/>
     </Window.Resources>
 
     <Window.CommandBindings>
@@ -36,57 +36,47 @@
     </Window.InputBindings>
     <TabControl>
         <TabItem Header="Main">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="35"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="10"/>
-        </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="18*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="35"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="10"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Select Input File" FontWeight="DemiBold" VerticalAlignment="Center" />
+                <Button Grid.Row="1" Grid.Column="3" Width="80" Height="23" Content="_Select" Name="btnSSCHFile" Command="{StaticResource MyCommand1}"  KeyboardNavigation.TabIndex="1"/>
+                <Button Grid.Row="2" Grid.Column="3"  Width="80" Height="23" Content="E_xit" x:Name="btnExit" Command="{StaticResource MyCommand5}"  KeyboardNavigation.TabIndex="7"/>
+                <TextBox Grid.Row="1" Grid.Column="2" Width="476" Height="23" Name="txtSSCHFile"  KeyboardNavigation.TabIndex="0" Text="" />
+                <CheckBox Grid.Row="3" Grid.Column="2" Visibility="Hidden" Name="chkPreview" IsChecked="True" KeyboardNavigation.TabIndex="4" Checked="chkPreview_Checked" Unchecked="chkPreview_Unchecked"/>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Select Input File" Margin="20 5 14 5" FontWeight="DemiBold"/>
-        <TextBlock Grid.Row="2" Grid.Column="0" Text="Select Working Directory" Margin="20 5 14 5" FontWeight="DemiBold" Visibility="Hidden"/>
-        <TextBlock Grid.Row="3" Grid.Column="0" Text="View All Output Messages" Margin="20 5 14 5" FontWeight="DemiBold"/>
 
-        <WrapPanel Grid.Row="1" Grid.Column="1">
-            <TextBox Margin="14 5 2 5" Width="420" Height="23" Name="txtSSCHFile"  KeyboardNavigation.TabIndex="0" Text="" />
-            <Button Width="80" Height="23" Margin="2 5 14 5" Content="_Select" Name="btnSSCHFile" Command="{StaticResource MyCommand1}"  KeyboardNavigation.TabIndex="1"/>
-        </WrapPanel>
+                <WrapPanel Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <TextBlock  Text="Enable Verbose"   VerticalAlignment="Center"/>
+                    <CheckBox Name="chkDebug" IsChecked="False" KeyboardNavigation.TabIndex="4" VerticalAlignment="Center"/>
+                    <Button Margin="10,0,0,0" Width="120" Height="23" Content="_Convert" Name="btnConvert" Click="btnConvertDirect_Click" Command="{StaticResource MyCommand3}"  KeyboardNavigation.TabIndex="5"></Button>
+                </WrapPanel>
 
-        <WrapPanel Grid.Row="2" Grid.Column="1" Visibility="Hidden">
-            <TextBox Margin="14 5 2 5" Width="420" Height="23" Name="txtWorkingDirectory"  KeyboardNavigation.TabIndex="2" Text="" />
-            <Button Width="80" Height="23" Margin="2 5 14 5" Content="S_elect" Name="btnWorkingDirectory" Command="{StaticResource MyCommand6}" KeyboardNavigation.TabIndex="3"/>
-        </WrapPanel>
-
-                <!--<WrapPanel Grid.Row="3" Grid.Column="1">
-                    <TextBox Margin="14 5 2 5" Width="420" Height="23" Name="txtSaveLocation"  KeyboardNavigation.TabIndex="2" Text="G:\reference\Sparrow_1.0.1.4\v0" />
-                    <Button Width="80" Height="23" Margin="2 5 14 5" Content="S_elect" Name="btnSaveFileLocation" Command="{StaticResource MyCommand2}" KeyboardNavigation.TabIndex="3"/>
-                </WrapPanel>-->
-
-                <CheckBox Visibility="Hidden" Margin="14 5 2 5" Grid.Row="3" Grid.Column="1" Name="chkPreview" IsChecked="True" KeyboardNavigation.TabIndex="4" Checked="chkPreview_Checked" Unchecked="chkPreview_Unchecked"/>
-                <CheckBox Margin="54 5 2 5" Grid.Row="3" Grid.Column="1" Name="chkDebug" IsChecked="False" KeyboardNavigation.TabIndex="4"/>
-
-                <WrapPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left">
-                    <Button Margin="270 5 2 5"  Width="80" Height="23" Content="_Convert" Name="btnConvert" Click="btnConvertDirect_Click" Command="{StaticResource MyCommand3}"  KeyboardNavigation.TabIndex="5"></Button>
-            <Button Margin="2 5 2 5"  Width="80" Height="23" Content="C_lear" Name="btnClear" Command="{StaticResource MyCommand4}"  KeyboardNavigation.TabIndex="6"></Button>
-            <Button Margin="2 5 2 5"  Width="80" Height="23" Content="E_xit" Name="btnExit" Command="{StaticResource MyCommand5}"  KeyboardNavigation.TabIndex="7"></Button>
-        </WrapPanel>
-                <WrapPanel Orientation="Horizontal" Margin="20 5 10 10" Grid.Row="4" Grid.ColumnSpan="2" Width="700" Height="Auto">
+                <WrapPanel Orientation="Vertical" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3" Width="680" Height="Auto">
+                    <TextBlock Text="Output Window :" FontWeight="DemiBold"/>
                     <!--<Label Content="vvv" Name="labelStatus"/>-->
-                    <TextBox Width="700" Height="300" HorizontalAlignment="Left"  Name="txtPreview" Visibility="{Binding IsChecked,ElementName=chkPreview, Converter={StaticResource b2v}}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 AcceptsReturn="True" TextWrapping="NoWrap"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True">
+                    <TextBox Width="660" Height="300" HorizontalAlignment="Left"  x:Name="txtPreview" Visibility="{Binding IsChecked, Converter={StaticResource b2v}, ElementName=chkPreview}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                		AcceptsReturn="True" TextWrapping="NoWrap"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True" TextChanged="txtPreview_TextChanged">
                         <TextBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Clear" Click="OutputTextBox_Clear" />
                             </ContextMenu>
                         </TextBox.ContextMenu>
                     </TextBox>
+                    <!--<Label Content="vvv" Name="labelStatus"/>-->
                 </WrapPanel>
             </Grid>
         </TabItem>

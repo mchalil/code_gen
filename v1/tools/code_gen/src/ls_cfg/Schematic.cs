@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using ls_cfg;
 using System.Linq;
 using System.Xml.Serialization;
+using System.Reflection;
 
 namespace ls_code_gen
 {
@@ -189,11 +190,12 @@ namespace ls_code_gen
 //        public int maxBufferCount;
         public string fileNameSuffix;
         public Dictionary<string, Module> orderModuleList;
-
+        public string version;
         public Schematic(string fileName, string mode)
         {
             Module cic = new Module();
             script = new schscript();
+            version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             fileNameSuffix = fileName;
             modules = readModules(fileName, script);

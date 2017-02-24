@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using ls_cfg;
 using ext_programs;
+using System.Reflection;
 
 namespace code_gen_lib
 {
@@ -101,10 +102,8 @@ namespace code_gen_lib
                         }
                         convertor.Components.Add(comp);
                     }
-
                 }
             }
-
             oCodeGenInfo.AddToVsScriptText(convertor.GenerateScript());
             return "ok";
         }
@@ -313,10 +312,8 @@ namespace code_gen_lib
                                 comp.OutputConnections = keyValue.Value;
                             }
                         }
-
                         convertor.Components.Add(comp);
                     }
-
                 }
             }
 
@@ -427,7 +424,9 @@ namespace code_gen_lib
             sch.orderModuleList = lsTopology.getTopOrder(sch.modules, sch.dgraph, sch.paths);
             PerformCodeGeneration_c(Path.Combine(output_dir_sw, file_sw_vs_no_ext), debugLevel);
             PerformCodeGeneration_m(Path.Combine(output_dir_matlab_sw, file_sw_vs_no_ext), debugLevel);
-            version = "0.1.1";
+            version = "\n  Lib : " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + Environment.NewLine + 
+                "  CFG : " + sch.version + Environment.NewLine +
+                "  CMD Line utility : " + Stitch.version + Environment.NewLine ; 
         }
 
         public void PerformCodeGeneration_c(string fileNameInput, string debugLevel)
@@ -490,7 +489,6 @@ namespace code_gen_lib
             oCodeGenInfo.AddToDriverCodeAPI("{\n");
             convertor.GenerateDriverCode(oCodeGenInfo);
             oCodeGenInfo.AddToDriverCodeAPI(" return 0;\n}\n");
-
         }
 
         public class code_m
@@ -595,7 +593,6 @@ namespace code_gen_lib
                     str_api_hdr += String.Format("extern {0};\n", str1.Split('=')[0]);
 
                 }
-
                 idx = 0;
                 foreach (int i in sch.hierarchyModuleIn.outputs)
                 {
@@ -616,11 +613,8 @@ namespace code_gen_lib
                 str1 = String.Format("eLsAlgoStatus lss_{0}_{1} (void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset) \n", sch.script.sch_name, inputName);
                 str_api_code += str1;
                 str_api_hdr += String.Format("extern {0}", str1.Replace('\n',';'));
-
                 str_api_code += String.Format("{{ \n" );
                 str_api_code += "\teLsAlgoStatus status = eLsAlgoStatus_ok; \n\n";
-
-
                 str_buffer_data = "";
 
                 foreach (var mp in sch.orderModuleList)
@@ -634,7 +628,6 @@ namespace code_gen_lib
                     }
                     else
                     {
-                        //str_buffer_data += ModuleParam.DefaultParam(mp.Value);
                         str_buffer_data += String.Format("{0}_instance {1} =  {{}};\n", mp.Value.AlgoName, mp.Value.FullName);
                     }
                 }
@@ -651,12 +644,9 @@ namespace code_gen_lib
                     str_api_code += mp.Value.ToAPICodeInit();
                 }
                 str_api_code += "return status;\n}\n";
-
                 return 0;
             }
-
         }
-
 
         public string file_wrapper_api_c;
         public string file_wrapper_api_h;
@@ -673,6 +663,5 @@ namespace code_gen_lib
             }
             fileOut.WriteLine(s);
         }
-
     }
 }
