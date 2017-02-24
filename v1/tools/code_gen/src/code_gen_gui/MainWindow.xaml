@@ -50,7 +50,6 @@
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="10"/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="Select Input File" FontWeight="DemiBold" VerticalAlignment="Center" />
                 <Button Grid.Row="1" Grid.Column="3" Width="80" Height="23" Content="_Select" Name="btnSSCHFile" Command="{StaticResource MyCommand1}"  KeyboardNavigation.TabIndex="1"/>
@@ -68,7 +67,7 @@
                 <WrapPanel Orientation="Vertical" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="3" Width="680" Height="Auto">
                     <TextBlock Text="Output Window :" FontWeight="DemiBold"/>
                     <!--<Label Content="vvv" Name="labelStatus"/>-->
-                    <TextBox Width="660" Height="300" HorizontalAlignment="Left"  x:Name="txtPreview" Visibility="{Binding IsChecked, Converter={StaticResource b2v}, ElementName=chkPreview}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    <TextBox Width="670" Height="300" HorizontalAlignment="Left"  x:Name="txtPreview" Visibility="{Binding IsChecked, Converter={StaticResource b2v}, ElementName=chkPreview}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 		AcceptsReturn="True" TextWrapping="NoWrap"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True" TextChanged="txtPreview_TextChanged">
                         <TextBox.ContextMenu>
                             <ContextMenu>
