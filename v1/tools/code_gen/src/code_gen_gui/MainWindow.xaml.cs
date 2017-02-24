@@ -11,6 +11,7 @@
     using System.Windows.Forms;
     using System.Windows.Input;
     using sparrow_code_gen;
+    using System.Reflection;
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -60,11 +61,11 @@
         }
         private void btnConvert_Click(object sender, ExecutedRoutedEventArgs e)
         {
-            string app_version = "0.1.1";
+            string app_version = Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
             bool? dbgLevel = chkDebug.IsChecked;
             CodeGenMain codeGen;
-            DisplayInOutputText(String.Format("\n/* Sparrow Code Generation, version {0} */", app_version));
             DisplayInOutputText("/* (c) 2017 Logosent Semiconductors India Pvt. Ltd.        */ ");
+            DisplayInOutputText(String.Format("\n/* Sparrow Code Generation, version {0} */", app_version));
             if (txtSSCHFile.Text.Trim() == String.Empty || File.Exists(txtSSCHFile.Text.Trim()) == false)
             {
                 DisplayInOutputText(String.Format("Invalid Schematic File {0}", txtSSCHFile.Text.Trim()));
@@ -76,8 +77,13 @@
 
             if (dbgLevel == true)
             {
+                DisplayInOutputText(String.Format("/* Sparrow Code Generation Library Used, version {0}       \n\n*/", codeGen.version));
+
                 DisplayInOutputText(String.Format(" -> Partition result :  {0} \n", codeGen.sigma_partition_outstr));
                 DisplayInOutputText(String.Format(" -> HLD Generate result :  {0} \n", codeGen.sigma_generate_outstr));
+            }else
+            {
+
             }
 
             int fileCountV = Directory.GetFiles(codeGen.output_dir_hw, "*.v", SearchOption.TopDirectoryOnly).Length;
@@ -86,7 +92,6 @@
 
 
             DisplayInOutputText(String.Format("\nSigma Code Generated to Folder {0}\n -> Total {2} / {1}  Generated. \n", codeGen.output_dir_hw, fileCountAll, fileCountV));
-            DisplayInOutputText(String.Format("/* Sparrow Code Generation Library Used, version {0}       */", codeGen.version));
             DisplayInOutputText(String.Format("Sparrow Code Generation Result ok.\n -> Algorithm API code written into \n\t{0} \n\t{1}\n", codeGen.file_wrapper_api_c, codeGen.file_wrapper_api_h));
             DisplayInOutputText(String.Format(" -> MATLAB code written into \n\t{0} \n\t{1} \n", codeGen.file_wrapper_api_m, codeGen.file_wrapper_init_m));
 

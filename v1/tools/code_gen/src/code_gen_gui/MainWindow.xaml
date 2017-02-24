@@ -79,8 +79,8 @@
         </WrapPanel>
                 <WrapPanel Orientation="Horizontal" Margin="20 5 10 10" Grid.Row="4" Grid.ColumnSpan="2" Width="700" Height="Auto">
                     <!--<Label Content="vvv" Name="labelStatus"/>-->
-                    <TextBox Width="700" Height="280" HorizontalAlignment="Left"  Name="txtPreview" Visibility="{Binding IsChecked,ElementName=chkPreview, Converter={StaticResource b2v}}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                 AcceptsReturn="True" TextWrapping="Wrap"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True">
+                    <TextBox Width="700" Height="300" HorizontalAlignment="Left"  Name="txtPreview" Visibility="{Binding IsChecked,ElementName=chkPreview, Converter={StaticResource b2v}}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 AcceptsReturn="True" TextWrapping="NoWrap"  ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True">
                         <TextBox.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Clear" Click="OutputTextBox_Clear" />
