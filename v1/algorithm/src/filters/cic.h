@@ -4,9 +4,9 @@
 
 class cic
 {
-	tFract64 State[MAX_STAGES];
-	tFract64 compOut[MAX_STAGES];
-	tFract64 delayBuff[MAX_STAGES];
+	tFract64 State[MAX_STAGES+1];
+	tFract64 compOut[MAX_STAGES+1];
+	tFract64 delayBuff[MAX_STAGES+1];
 
 	Integer nCount;
 	Integer BlockSize;

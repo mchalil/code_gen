@@ -28,36 +28,46 @@ namespace ls_code_gen
                string str = String.Format("{1}_instance {1}_{0} = {{ 0 /* default */}};\n\n", m.Name, m.AlgoName);
                 return str;
             }
+            bool isNumber(string s)
+            {
+                long number1 = 0;
+                return long.TryParse(s, out number1);
+            }
             public string Param_m1()
             {
                 char[] split_char = { ':', '{', '}' };
                 string[] ss = param.Split(split_char, StringSplitOptions.RemoveEmptyEntries);
+                string instance = String.Format("{1}_{0}", ss[0].Replace(" ", String.Empty), ss[1].Replace(" ", String.Empty));
+
                 if (ss.Length < 2)
                 {
-                    Console.WriteLine("Error in param field {0}", param);
+                    // Console.WriteLine("Error in param field {0}", param);
                     return "Error in param field " + param;
                 }
                 char[] split_char1 = { '{', '}' };
                 string[] ss1 = param.Split(split_char1, StringSplitOptions.RemoveEmptyEntries);
                 if (ss1.Length < 2)
                 {
-                    string instance1 = String.Format("{0}", ss[0].Replace(" ", String.Empty));
-                    string str1 = String.Format("{0} = lsModule(\'{0}\', obj); \n", instance1);
-                    return str1;
+                    return String.Format("{0} = lsModule(\'{0}\', obj); \n", instance);
                 }
                 string[] ss2 = ss1[1].Split(' ');
 
                 string str = ""; // String.Format("{1}_instance {1}_{0} = {{ ", ss[0].Replace(" ", String.Empty), ss[1].Replace(" ", String.Empty));
-                string instance = String.Format("{1}_{0}", ss[0].Replace(" ", String.Empty), ss[1].Replace(" ", String.Empty));
+                instance = String.Format("{1}_{0}", ss[0].Replace(" ", String.Empty), ss[1].Replace(" ", String.Empty));
                 str += String.Format("{0} = lsModule(\'{0}\', obj); \n", instance);
 
                 foreach (string s in ss2)
                 {
                     string[] ss3 = s.Split('-');
-                    // nco_bram_iq_nco_a.addp('sample_width' ,16); 
-                    str += String.Format("{0}.addp(\'{1}\', {2}); \n", instance, ss3[0], ss3[1]); /// "{1} /* {0} */, ", ss3[0], ss3[1]);
+                    if (isNumber(ss3[1]))
+                    {
+                        str += String.Format("{0}.addp(\'{1}\', {2}); \n", instance, ss3[0], ss3[1]); /// "{1} /* {0} */, ", ss3[0], ss3[1]);
+                    }
+                    else
+                    {
+                        str += String.Format("{0}.addp(\'{1}\', ls_types.{2}); \n", instance, ss3[0], ss3[1]); /// "{1} /* {0} */, ", ss3[0], ss3[1]);
+                    }
                 }
-                //     obj.nco_bram_iq_nco_a = nco_bram_iq_nco_a;
 
                 return str;
             }

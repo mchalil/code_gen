@@ -2,7 +2,7 @@
 #include "ls_code_gen_api.h"
 #include "cic.h"
 
-//#define TST_CIC 
+#define TST_CIC 
 
 #define INITIAL_SHIFT (0)
 #define ENABLE_PRUNING 
@@ -103,7 +103,7 @@ Integer cic::tst()
 }
 #else
 #include <stdio.h>
-tFract32 aSamples[] = {
+tSamples aSamples[] = {
 #if HF_DATA
 	0,	1,	1,	2,	2,	3,	4,	4,	5,	5,	6,	6,	7,	7,	8,	8,	8,	9,	9,	9,	10,	10,	10,	10,	10,	10,	10,	10,	10,	10,	10,	9,	9,	9,	8,	8,	8,	7,	7,	6,	6,	5,	5,	4,	4,	3,	3,	2,	1,	1,	0,	-1,	-1,	-2,	-2,	-3,	-4,	-4,	-5,	-5,	-6,	-6,	-7,	-7,	-8,	-8,	-8,	-9,	-9,	-9,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-9,	-9,	-9,	-8,	-8,	-8,	-7,	-7,	-6,	-6,	-5,	-5,	-4,	-4,	-3,	-3,	-2,	-1,	-1,
 	0,	1,	1,	2,	2,	3,	4,	4,	5,	5,	6,	6,	7,	7,	8,	8,	8,	9,	9,	9,	10,	10,	10,	10,	10,	10,	10,	10,	10,	10,	10,	9,	9,	9,	8,	8,	8,	7,	7,	6,	6,	5,	5,	4,	4,	3,	3,	2,	1,	1,	0,	-1,	-1,	-2,	-2,	-3,	-4,	-4,	-5,	-5,	-6,	-6,	-7,	-7,	-8,	-8,	-8,	-9,	-9,	-9,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-10,	-9,	-9,	-9,	-8,	-8,	-8,	-7,	-7,	-6,	-6,	-5,	-5,	-4,	-4,	-3,	-3,	-2,	-1,	-1,
@@ -136,28 +136,30 @@ tFract32 aSamples[] = {
 	-20,	-20,	-19,	-18,	-18,	-17,	-17,	-16,	-15,	-15,	-14,	-13,	-13,	-12,	-12,	-11,	-10,	-10,	-9,	-8,	-8,	-7,	-7,	-6,	-5,	-5,	-4,	-3,	-3,	-2,	-2,	-1,	0,
 #endif
 };
-
+#define INSAMPLES 984
+#define DOWNSAMPLE 24
+#define OUTSAMPLES INSAMPLES/DOWNSAMPLE
 Integer cic::tst()
 {
 	Integer result = 0;
-	int r = 24;
+	int r = DOWNSAMPLE;
 	int nn = 5;
-	tFract32 aSamplesOut[1000/4];
+	tSamples aSamplesOut[OUTSAMPLES];
 	int io=0;
-	int block = r*8;
+	int block = r*5;
 	int checkSum = 0;
 	int checkSum1 = 95182608; // self ref, only usefuly for porting, optimization. 
 
 	cic *pCic = new cic(block, nn, r, 1);
 
-	for (int i = 0; i < 1000; i++) aSamples[i] *= 8; // to test differnt input ranges. 
+	for (int i = 0; i < INSAMPLES; i++) aSamples[i] *= 8; // to test differnt input ranges. 
 
-	for (int i = 0; i < 1000; i+= block) {
+	for (int i = 0; i < INSAMPLES; i+= block) {
 		pCic->process(&aSamples[i], &aSamplesOut[io]);
 		io += block / r;
 	}
 
-	for (int i = 0; i < 1000/r; i++) checkSum += aSamplesOut[i];
+	for (int i = 0; i < OUTSAMPLES; i++) checkSum += aSamplesOut[i];
 	if (checkSum1 != checkSum)
 	{
 		result = checkSum1 - checkSum;

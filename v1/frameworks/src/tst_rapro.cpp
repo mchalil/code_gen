@@ -11,7 +11,7 @@ extern genfiraxi_instance genfiraxi_ps_cfir;
 extern tParamFract mycoeff_pfir[48];
 extern tParamFract mycoeff_cfir[24];
 
-void main()
+void main1()
 {
 	int test1 = 12;
 

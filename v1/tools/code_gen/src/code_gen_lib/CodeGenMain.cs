@@ -519,10 +519,10 @@ namespace code_gen_lib
 
             public int  gen(Schematic sch)
             {
-
+                string inputName = Path.GetFileName(inputFileName);
                 str_process = "";
-                str_process = String.Format("function lss_{0}_{1}_process (lssys1) \n", inputFileName, sch.script.sch_name);
-                str_init = String.Format("function obj = lss_{0}_{1}_init(obj) \n", inputFileName, sch.script.sch_name);
+                str_process = String.Format("function {0}_{1}_process (lssys1) \n", inputName, sch.script.sch_name);
+                str_init = String.Format("function obj = {0}_{1}_init(obj) \n", inputName, sch.script.sch_name);
 
                 foreach (var mp in sch.orderModuleList)
                 {
