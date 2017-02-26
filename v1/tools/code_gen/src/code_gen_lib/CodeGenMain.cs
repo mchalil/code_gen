@@ -348,6 +348,7 @@ namespace code_gen_lib
 
         public string version;
         Schematic sch;
+        TuningParams tuning;
 
         enum InputFileType
         {
@@ -385,6 +386,8 @@ namespace code_gen_lib
             output_dir_hw = Path.Combine(output_dir , "hw");
             output_dir_sw = Path.Combine(output_dir , "sw");
             output_dir_matlab_sw = Path.Combine(output_dir,"matlab", "sw");
+
+            tuning = new TuningParams();
 
             if (!Directory.Exists(workingFolder))
             {
@@ -458,7 +461,7 @@ namespace code_gen_lib
             fileOut_wapper = new System.IO.StreamWriter(file_wrapper_api_c);
             fileOut_wapper_h = new System.IO.StreamWriter(file_wrapper_api_h);
 
-            code_c c = new code_c(fileNameInput);
+            code_c c = new code_c(fileNameInput, tuning);
             c.gen(sch, file_wrapper_api_h);
 
             // WriteStringOut(fileOut_wapper, "#ifdef _WIN32", debugLevel);
@@ -485,7 +488,7 @@ namespace code_gen_lib
             file_wrapper_init_m = fileNameInput + "_" + sch.script.sch_name + "_init.m";
             fileOut_wapper = new System.IO.StreamWriter(file_wrapper_api_m);
             fileOut_wapper_init_m = new System.IO.StreamWriter(file_wrapper_init_m);
-            code_m code_m1 = new code_m(fileNameInput);
+            code_m code_m1 = new code_m(fileNameInput, tuning);
             code_m1.gen(sch);
 
             WriteStringOut(fileOut_wapper, code_m1.str_process, debugLevel);
@@ -518,12 +521,12 @@ namespace code_gen_lib
             TuningParams tuning;
 
             string inputFileName;
-            public code_m(string fileName)
+            public code_m(string fileName, TuningParams tuningIf)
             {
                 str_init = "";
                 str_process = "";
                 inputFileName = fileName;
-                tuning = new TuningParams();
+                tuning = tuningIf;
             }
 
             public int  gen(Schematic sch)
@@ -545,7 +548,7 @@ namespace code_gen_lib
                     {
                         str_init += String.Format("{0} = lsModule(\'{0}\', obj);\n", mp.Value.FullName); 
                     }
-                    str_init += tuning.insertTuningParams(mp.Value.AlgoName, mp.Value.FullName);
+                    str_init += tuning.insertTuningParams_m(mp.Value.AlgoName, mp.Value.FullName, "");
                     str_init += mp.Value.ToAPIData_m();
                 }
                 str_init += "end" + Environment.NewLine;
@@ -558,15 +561,17 @@ namespace code_gen_lib
         public class code_c
         {
             string inputFileName;
+            TuningParams tuning;
 
-            public code_c(string fileName)
+            public code_c(string fileName, TuningParams tuningIf)
             {
                 str_api_data = "";
                 str_api_code = "";
                 str_api_hdr = "";
                 str_buffer_data = "";
                 inputFileName = fileName;
-            }
+                tuning = tuningIf;
+        }
 
             public string str_api_data;
             public string str_api_code;
@@ -647,7 +652,7 @@ namespace code_gen_lib
                     Schematic.ModuleParam p;
                     if (sch.hitTable.TryGetValue(mp.Key, out p))
                     {
-                        str_buffer_data += p;
+                        str_buffer_data += tuning.insertTuningParams_c(mp.Value.AlgoName, mp.Value.FullName, p.ToString());
                     }
                     else
                     {

@@ -45,7 +45,40 @@ namespace code_gen_lib
             }
             return instance;
         }
-        
+        public string m(string instanceName)
+        {
+            string str = "";
+            try
+            {
+                str += String.Format("%Reading from param file {0}; \n", fileName);
+
+                str += String.Format("{0}.addp('cic', ls_cic(obj.tick, {1}, {2}, 1));\n", instanceName, instance.nRate, instance.nStage);
+            }
+            catch (Exception ex)
+            {
+                str += String.Format("{0}.addp('cic', ls_cic(obj.tick, 24, 5, 1)); \n", instanceName);
+                str += String.Format("%Unable to open param file {0} : {1}", fileName, ex.Message);
+            }
+            return str;
+        }
+        public string c(string instanceName, string moduleName)
+        {
+            string str = "";
+            try
+            {
+                str += String.Format("//Reading from param file {0}; \n", fileName);
+
+                str += String.Format("{0}_instance {1} = {{ {2}, {3}, {4}, {5} }};\n", moduleName, instanceName, "cicdec", instance.nRate, instance.nStage, 1);
+            }
+            catch (Exception ex)
+            {
+                str += String.Format("{0}_instance {1} = {{ {2}, {3}, {4}, {5} }}; // default\n", "cicdec", moduleName, instanceName, 24, 5, 1);
+
+                str += String.Format("// Unable to open param file {0} : {1}", fileName, ex.Message);
+            }
+            return str;
+        }
+
         public lsCic(string xmlFile)
         {
             string xmlString = System.IO.File.ReadAllText(xmlFile);

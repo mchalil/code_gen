@@ -55,6 +55,45 @@ namespace code_gen_lib
             }
             return instance;
         }
+        public string m(string instanceName)
+        {
+            string str  = "";
+            try {
+                str = String.Format("%Reading from param file {0}; \n", fileName);
+                str += String.Format("{0}.addp('frequency', {1}); \n", instanceName, instance.nFrequency);
+                str += String.Format("{0}.addp('amplitude', {1});\n", instanceName, instance.nAmplitude);
+                str += String.Format("{0}.addp('phstate', 0);\n", instanceName);
+            }
+            catch
+            {
+                str = String.Format("{0}.addp('frequency', {1}); \n", instanceName, 1020000);
+                str += String.Format("{0}.addp('amplitude', {1});\n", instanceName, 1000);
+                str += String.Format("{0}.addp('phstate', 0);\n", instanceName);
+            }
+            return str;
+        }
+        public string c(string instanceName, string moduleName)
+        {
+            string str = "";
+            try
+            {
+                str = String.Format("//Reading from param file {0}; \n", fileName);
+                str += String.Format("{0}_instance {1} = {{ \n", moduleName, instanceName);
+                str += String.Format(" {1}, /* {0} */\n", "sample_width", instance.Bits);
+                str += String.Format(" {1}, /* {0} */\n", "nbanks (?)", 2);
+                str += String.Format(" {1}, /* {0} */\n", "amplitude", instance.nAmplitude);
+                str += String.Format(" {1}, /* {0} */\n", "sampfreq", instance.nFrequency);
+                str += String.Format(" {1}, /* {0} */\n", "phstate (?)", 0);
+                str += String.Format("}}; \n");
+            }
+            catch
+            {
+                str = String.Format("{0}.addp('frequency', {1}); \n", instanceName, 1020000);
+                str += String.Format("{0}.addp('amplitude', {1});\n", instanceName, 1000);
+                str += String.Format("{0}.addp('phstate', 0);\n", instanceName);
+            }
+            return str;
+        }
         public int[] getLutValues()
         {
             int[] coef = Enumerable.Range(0, instance.nLutSize).ToArray();

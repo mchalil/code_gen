@@ -14,54 +14,55 @@ namespace code_gen_lib
         }
 
 
-        public string insertTuningParams(string moduleName, string instanceName)
+        public string insertTuningParams_m(string moduleName, string instanceName, string moduleParam)
         {
             string str = "";
-            string paramFile = "";
             switch (moduleName)
             {
                 case "nco_bram":
-                    paramFile = "..\\..\\..\\..\\data\\" + instanceName + ".xml";
                     lsNco nco1;
-                    try
-                    {
-                        nco1 = new lsNco(paramFile);
-                        str += String.Format("%Reading from param file {0}; \n", paramFile);
-                        str += String.Format("{0}.addp('frequency', {1}); \n", instanceName, nco1.instance.nFrequency);
-                        str += String.Format("{0}.addp('amplitude', {1});\n", instanceName, nco1.instance.nAmplitude);
-                        str += String.Format("{0}.addp('phstate', 0);\n", instanceName);
-                    }
-                    catch (Exception ex)
-                    {
-                        str += String.Format("{0}.addp('frequency', 13.5e6);% default values \n", instanceName);
-                        str += String.Format("{0}.addp('amplitude', 1e3);\n", instanceName);
-                        str += String.Format("{0}.addp('phstate', 0);\n", instanceName);
-                        str += String.Format("%Unable to open param file {0} : {1}", paramFile , ex.Message);
-                        return str;
-                    }
+                    nco1 = new lsNco("..\\..\\..\\..\\data\\" + instanceName + ".xml");
 
+                    str += nco1.m(instanceName);
                     break;
                 case "cicdec":
                     lsCic cic1;
-                    paramFile = "..\\..\\..\\..\\data\\" + instanceName + ".xml";
-                    try
-                    {
-                        cic1 = new lsCic(paramFile);
-                        str += String.Format("%Reading from param file {0}; \n", paramFile);
-
-                        str += String.Format("{0}.addp('cic', ls_cic(obj.tick, {1}, {2}, 1));\n", instanceName, cic1.instance.nRate, cic1.instance.nStage);
-                    }
-                    catch (Exception ex)
-                    {
-                        str += String.Format("{0}.addp('cic', ls_cic(obj.tick, 24, 5, 1)); \n", instanceName);
-                        str += String.Format("%Unable to open param file {0} : {1}", paramFile, ex.Message);
-                    }
+                    cic1 = new lsCic("..\\..\\..\\..\\data\\" + instanceName + ".xml");
+                    str += cic1.m(instanceName);
                     break;
                 case "genfiraxi":
                     str += String.Format("{0}.addp('aTuningParams', {{ {{ }}, {{ }} }});\n", instanceName);
                     break;
+                default:
+                    str += moduleParam;
+                    break;
             }
-
+            return str;
+        }
+        public string insertTuningParams_c(string moduleName, string instanceName, string moduleParam)
+        {
+            string str = "";
+            switch (moduleName)
+            {
+                case "nco_bram":
+                    lsNco nco1;
+                    nco1 = new lsNco("..\\..\\..\\..\\data\\" + instanceName + ".xml");
+                    str += nco1.c(instanceName, moduleName);
+                    break;
+                case "cicdec":
+                    lsCic cic1;
+                    cic1 = new lsCic("..\\..\\..\\..\\data\\" + instanceName + ".xml");
+                    str += cic1.c(instanceName, moduleName);
+                    break;
+                case "genfiraxi":
+                    lsFir fir1;
+                    fir1 = new lsFir("..\\..\\..\\..\\data\\" + instanceName + ".xml");
+                    str += fir1.c(instanceName, moduleName);
+                    break;
+                default:
+                    str += moduleParam;
+                    break;
+            }
             return str;
         }
 

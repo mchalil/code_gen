@@ -50,6 +50,29 @@ namespace code_gen_lib
             }
             return instance;
         }
+        public string c(string instanceName, string moduleName)
+        {
+            string str = "";
+            try
+            {
+                str += String.Format("//Reading from param file {0}; \n", fileName);
+                str += String.Format("tParamFract pFirCoeff_{0}[] = {{\n", instanceName);
+                str += String.Join(",", instance.Coefficients);
+                str += "};\n";
+
+                str += String.Format("{0}_instance {1} = {{ {2}, \n", moduleName, instanceName, "singleslice");
+                str += String.Format(" {1} /* {0} */,\n", "sample_width (?)", instance.Bits);
+                str += String.Format(" {1} /* {0} */,\n", "coeff_width (?)", 18);
+                str += String.Format(" {1} /* {0} */,\n", "ntap", instance.Coefficients.Length);
+                str += String.Format(" pFirCoeff_{0} }};\n", instanceName);
+            }
+            catch (Exception ex)
+            {
+                str += ex.Message;
+            }
+            return str;
+        }
+
         public lsFir(string xmlFile)
         {
             string xmlString = System.IO.File.ReadAllText(xmlFile);

@@ -31,12 +31,34 @@ tLsBufferInfo pOO_softfi_psfi_2[] = { {9, 1} }; // 9
 
 
 softfi_instance softfi_psfi_1 = {};
- nco_bram_instance nco_bram_ps_nco = { 16 /* sample_width */, };
+ //Reading from param file ..\..\..\..\data\nco_bram_ps_nco.xml; 
+nco_bram_instance nco_bram_ps_nco = { 
+ 18, /* sample_width */
+ 2, /* nbanks (?) */
+ 1000, /* amplitude */
+ 13500000, /* sampfreq */
+ 0, /* phstate (?) */
+}; 
 mixmod_instance mixmod_ps_mixer = { 0 /* modulate */, 16 /* sample1_width */, 16 /* sample2_width */, 16 /* sample_out_width */, };
-cicdec_instance cicdec_ps_cicdec = { cicdec /* filter_type */, 16 /* sample_width */, 5 /* nstage */, 24 /* nrate */, };
-genfiraxi_instance genfiraxi_ps_cfir = { singleslice /* filter_type */, 16 /* sample_width */, 18 /* coeff_width */, 24 /* ntap */, };
+//Reading from param file ..\..\..\..\data\cicdec_ps_cicdec.xml; 
+cicdec_instance cicdec_ps_cicdec = { cicdec, 24, 5, 1 };
+//Reading from param file ..\..\..\..\data\genfiraxi_ps_cfir.xml; 
+tParamFract pFirCoeff_genfiraxi_ps_cfir[] = {
+-79,-469,-584,375,2241,2443,-1680,-7839,-7818,5316,27973,45930,45930,27973,5316,-7818,-7839,-1680,2443,2241,375,-584,-469,-79};
+genfiraxi_instance genfiraxi_ps_cfir = { singleslice, 
+ 17 /* sample_width (?) */,
+ 18 /* coeff_width (?) */,
+ 24 /* ntap */,
+ pFirCoeff_genfiraxi_ps_cfir };
 decim_instance decim_ps_cfir_dec = { 2 /* nrate */, 16 /* sample_width */, };
-genfiraxi_instance genfiraxi_ps_pfir = { singleslice /* filter_type */, 16 /* sample_width */, 18 /* coeff_width */, 48 /* ntap */, };
+//Reading from param file ..\..\..\..\data\genfiraxi_ps_pfir.xml; 
+tParamFract pFirCoeff_genfiraxi_ps_pfir[] = {
+-63,-6,70,171,290,402,461,410,197,-203,-767,-1414,-2001,-2342,-2235,-1505,-48,2139,4932,8088,11274,14113,16245,17389,17389,16245,14113,11274,8088,4932,2139,-48,-1505,-2235,-2342,-2001,-1414,-767,-203,197,410,461,402,290,171,70,-6,-63};
+genfiraxi_instance genfiraxi_ps_pfir = { singleslice, 
+ 17 /* sample_width (?) */,
+ 18 /* coeff_width (?) */,
+ 48 /* ntap */,
+ pFirCoeff_genfiraxi_ps_pfir };
 decim_instance decim_ps_pfir_dec = { 2 /* nrate */, 16 /* sample_width */, };
 softfi_instance softfi_psfi_2 = {};
  

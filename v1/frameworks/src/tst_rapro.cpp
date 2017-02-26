@@ -16,10 +16,13 @@ void main()
 	int test1 = 12;
 
 	FILE *fp_out;
+	FILE *fp_out1;
 	tSamples *pOutput0 = GETOUT_PTR_0;
+	tSamples *pOutput1 = GETOUT_PTR_1;
 
 	printf("testing\n");
 	fopen_s(&fp_out, outfileName0, "w");
+	fopen_s(&fp_out1, outfileName1, "w");
 	int i = 0;
 	
 	genfiraxi_ps_pfir.pFIRCoeff = mycoeff_pfir;
@@ -34,9 +37,12 @@ void main()
 		for (i = 0; i < TICK_SZ; i++)
 		{
 			fprintf(fp_out, "%f\n", pOutput0[i]);
+			fprintf(fp_out1, "%f\n", pOutput1[i]);
 		}
 	}
+	fclose(fp_out1);
 	fclose(fp_out);
 	printf("ok\n");
 	printf("output save to %s\n", outfileName0);
+	printf("output save to %s\n", outfileName1);
 }
