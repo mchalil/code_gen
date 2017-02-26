@@ -1,6 +1,6 @@
 //#include "stdafx.h"
 
-#include "hw_sw_ddc_software_ddc_api.h"
+#include "../rapro/sch/hw_sw_ddc/sw/hw_sw_ddc_software_ddc_api.h"
 #include <stdio.h>
 
 #include "ls_sparrow_algo.h"
@@ -11,7 +11,7 @@ extern genfiraxi_instance genfiraxi_ps_cfir;
 extern tParamFract mycoeff_pfir[48];
 extern tParamFract mycoeff_cfir[24];
 
-void main1()
+void main()
 {
 	int test1 = 12;
 

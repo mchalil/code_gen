@@ -15,7 +15,7 @@ namespace code_gen_lib
 {
     public class CodeGenMain
     {
-        CodeGenInfo oCodeGenInfo;
+        public CodeGenInfo oCodeGenInfo;
         SchematicConvertor convertor;
 
         String PerformConversionOfSSCHFile(string xmlFilePath)
@@ -107,7 +107,7 @@ namespace code_gen_lib
             oCodeGenInfo.AddToVsScriptText(convertor.GenerateScript());
             return "ok";
         }
-#if false
+#if true
         String PerformConversionOfSSCHFile_back(string xmlFilePath)
         {
             XmlSerializer serializer = null;
@@ -232,6 +232,7 @@ namespace code_gen_lib
 #endif
         CodeGenInfo PerformConversionOfHFile(string xmlFilePath, string dataFile, string algoFile)
         {
+#if true
             XmlSerializer serializer = null;
             StreamReader reader = null;
             DesignerComponent designerComponent = null;
@@ -312,13 +313,26 @@ namespace code_gen_lib
                                 comp.OutputConnections = keyValue.Value;
                             }
                         }
+
+                        //for(int i=0; i < innerComponent.Connections.Count; i++)
+                        //{
+                        //    //comp.InputConnections.Add("")
+
+                        //}                    
+                        //{
+                        //    InputConnections = new List<ComponentConnection>() { new ComponentConnection("axi", "axi_cfg") },
+                        //    OutputConnections = new List<ComponentConnection>() { new ComponentConnection("cfg0", "nco_1_param"), new ComponentConnection("cfg1", "nco_2_param"), new ComponentConnection("cfg2", "nco_3_param") },
+                        //    Parameters = new List<ComponentParameter>() { new ComponentParameter("nco", 3), new ComponentParameter("flush_done", "pfir_dec_1") }
+                        //};
                         convertor.Components.Add(comp);
                     }
+
                 }
             }
+#endif
+            oCodeGenInfo = new CodeGenInfo();
 
-            //dgMemMap.ItemsSource = oCodeGenInfo.aMemMaps;
-            oCodeGenInfo.AddToDriverCodeAPI(oCodeGenInfo.codeApi("data\\csnippet_api.xml"));
+            oCodeGenInfo.AddToDriverCodeAPI(oCodeGenInfo.codeApi("..\\..\\data\\csnippet_api.xml"));
             /* $DataFile$ */
             string dfile = "#include \"" + Path.GetFileName(dataFile) + "\"\n";
             oCodeGenInfo.ReplaceInDriverCodeAPI("/* $DataFile$ */", dfile);
@@ -397,6 +411,8 @@ namespace code_gen_lib
                 Directory.CreateDirectory(output_dir_matlab_sw);
             }
             oCodeGenInfo = new CodeGenInfo();
+
+
             switch (inFileType)
             {
                 case InputFileType.ssch:
@@ -408,6 +424,10 @@ namespace code_gen_lib
                     File.Copy(fileNameFull, Path.Combine(output_dir, file_ex_vs));
                     break;
             }
+
+         //// for dyn code gen   CodeGenInfo oCodeGenInfo1 = PerformConversionOfHFile(file_ssch, "fileName_data", "fileName_code");
+
+
             ExtPrograms Stitch = new ExtPrograms(output_dir);
             sigma_partition_outstr = Stitch.PerformPartition(file_ex_vs);
             if (File.Exists(Path.Combine(output_dir, file_hw_vs)))
@@ -495,6 +515,7 @@ namespace code_gen_lib
         {
             public string str_init;
             public string str_process;
+            TuningParams tuning;
 
             string inputFileName;
             public code_m(string fileName)
@@ -502,6 +523,7 @@ namespace code_gen_lib
                 str_init = "";
                 str_process = "";
                 inputFileName = fileName;
+                tuning = new TuningParams();
             }
 
             public int  gen(Schematic sch)
@@ -523,6 +545,7 @@ namespace code_gen_lib
                     {
                         str_init += String.Format("{0} = lsModule(\'{0}\', obj);\n", mp.Value.FullName); 
                     }
+                    str_init += tuning.insertTuningParams(mp.Value.AlgoName, mp.Value.FullName);
                     str_init += mp.Value.ToAPIData_m();
                 }
                 str_init += "end" + Environment.NewLine;

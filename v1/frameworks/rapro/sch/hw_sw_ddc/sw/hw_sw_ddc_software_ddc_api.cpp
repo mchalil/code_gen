@@ -64,8 +64,6 @@ eLsAlgoStatus lss_ddc_hw_sw_ddc_software (void* hInstance, tLsBufferInfo* pInput
 	lss_module_softfi ((void*)&softfi_psfi_2, pII_softfi_psfi_2, pOO_softfi_psfi_2); // 9
 return status;
 }
-
-
 eLsAlgoStatus lss_ddc_hw_sw_ddc_software_init (void* hInstance) 
 { 
 	eLsAlgoStatus status = eLsAlgoStatus_ok; 

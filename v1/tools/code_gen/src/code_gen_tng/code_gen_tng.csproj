@@ -71,11 +71,11 @@
   <ItemGroup>
     <Reference Include="Sparrow.Core, Version=1.0.1.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Sparrow_1.0.1.4\Source\LogosentSparrow_Source_V1.0.1.4\sparrow\Sparrow\bin\Debug\Sparrow.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\reference\Sparrow_1.0.1.4\Source\LogosentSparrow_Source_V1.0.1.4\sparrow\Sparrow\bin\Debug\Sparrow.Core.dll</HintPath>
     </Reference>
     <Reference Include="Sparrow.Themes, Version=1.0.1.4, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\LogosentSparrow_Source_V1.0.1.4\sparrow\Sparrow\bin\Debug\Sparrow.Themes.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\reference\Sparrow_1.0.1.4\Source\LogosentSparrow_Source_V1.0.1.4\sparrow\Sparrow\bin\Debug\Sparrow.Themes.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

@@ -2,7 +2,7 @@
 #include "ls_code_gen_api.h"
 #include "cic.h"
 
-#define TST_CIC 
+//#define TST_CIC 
 
 #define INITIAL_SHIFT (0)
 #define ENABLE_PRUNING 

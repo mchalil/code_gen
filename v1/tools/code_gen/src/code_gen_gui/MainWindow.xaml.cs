@@ -86,15 +86,14 @@
 
             }
 
+            dgMemMap.ItemsSource = codeGen.oCodeGenInfo.aMemMaps;
+
             int fileCountV = Directory.GetFiles(codeGen.output_dir_hw, "*.v", SearchOption.TopDirectoryOnly).Length;
             int fileCountAll = Directory.GetFiles(codeGen.output_dir_hw, "*", SearchOption.TopDirectoryOnly).Length;
-
-
 
             DisplayInOutputText(String.Format("\nSigma Code Generated to Folder {0}\n -> Total {2} / {1}  Generated. \n", codeGen.output_dir_hw, fileCountAll, fileCountV));
             DisplayInOutputText(String.Format("Sparrow Code Generation Result ok.\n -> Algorithm API code written into \n\t{0} \n\t{1}\n", codeGen.file_wrapper_api_c, codeGen.file_wrapper_api_h));
             DisplayInOutputText(String.Format(" -> MATLAB code written into \n\t{0} \n\t{1} \n", codeGen.file_wrapper_api_m, codeGen.file_wrapper_init_m));
-
         }
 
 
@@ -144,6 +143,7 @@
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             txtSSCHFile.Text = sparrow_code_gen.Properties.Settings.Default.InputDir;
+
         }
 
         private void btnSelectWorkingDir_Click(object sender, ExecutedRoutedEventArgs e)

@@ -69,7 +69,6 @@ namespace ls_code_gen
                         str += String.Format("{0}.addp(\'{1}\', ls_types.{2}); \n", instance, ss3[0], ss3[1]); /// "{1} /* {0} */, ", ss3[0], ss3[1]);
                     }
                 }
-
                 return str;
             }
 

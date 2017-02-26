@@ -82,7 +82,7 @@ namespace ls_code_gen
             Component sink = pins[0].sink;
             Component sink0 = pins[0].sink0;
             /* you can take from any of from this group, taking the first one. idealy they all should be the same */
-            string paramFile = "./data/" + pins[0].sink0.InstanceName + ".xml";
+            string paramFile = "..\\data\\" + pins[0].sink0.InstanceName + ".xml";
             lsNco nco1;
             try
             {
@@ -215,7 +215,7 @@ namespace ls_code_gen
         {
             string inputConnString = "";
 
-            var lsInputPinsCfg = lsInputPins.FindAll(s => s.name.EndsWith("axi"));
+            var lsInputPinsCfg = lsInputPins.FindAll(s => s.type==pinType.Axi);
             var lsInputPinsGroupedCfg = lsInputPinsCfg
                   .GroupBy(u => u.name)
                   .Select(grp => grp.ToList())
