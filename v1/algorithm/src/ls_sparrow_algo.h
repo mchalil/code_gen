@@ -25,6 +25,8 @@ eLsAlgoStatus  lss_module_cicdec_init(void* hInstance);
 eLsAlgoStatus  lss_module_genfiraxi_init(void* hInstance);
 eLsAlgoStatus  lss_module_decim_init(void* hInstance);
 
+eLsAlgoStatus  lss_module_softfi_close(void* hInstance);
+
 eLsAlgoStatus lsAlgoCheck();
 
 typedef enum {
@@ -32,9 +34,6 @@ typedef enum {
 	singleslice = 103
 } lss_param;
 
-typedef struct {
-
-}softfi_instance;
 typedef struct _nco_bram_iq_instance {
 	Integer sample_width;
 	Integer nbanks;
@@ -70,8 +69,8 @@ typedef struct
 {
 	lss_param filter_type;
 	Integer sample_width;
-	Integer nstage;
 	Integer nrate;
+	Integer nstage;
 	cic *pCic;
 }cicdec_instance;
 
@@ -97,6 +96,15 @@ typedef struct _scaler_instance
 {
 	tParamFlt gain;
 }scaler_instance;
+
+#include <stdio.h>
+
+typedef struct _softfi_instance
+{
+	tLsBufferInfo *pOO;
+	Integer nCount;
+	FILE *pFile;
+}softfi_instance;
 
 typedef struct _ls_fw_automation_in_instance
 {

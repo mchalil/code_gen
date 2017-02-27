@@ -29,19 +29,19 @@ tLsBufferInfo pOO_decim_ps_pfir_dec[] = { {8, 1} }; // 8
 tLsBufferInfo pII_softfi_psfi_2[] = { {0, 1} };
 tLsBufferInfo pOO_softfi_psfi_2[] = { {9, 1} }; // 9
 
-
-softfi_instance softfi_psfi_1 = {};
+softfi_instance softfi_psfi_1 = { pOO_softfi_psfi_1 };
  //Reading from param file ..\..\..\..\data\nco_bram_ps_nco.xml; 
 nco_bram_instance nco_bram_ps_nco = { 
  18, /* sample_width */
  2, /* nbanks (?) */
  1000, /* amplitude */
+250000000, /* sampfreq */
  13500000, /* sampfreq */
  0, /* phstate (?) */
 }; 
 mixmod_instance mixmod_ps_mixer = { 0 /* modulate */, 16 /* sample1_width */, 16 /* sample2_width */, 16 /* sample_out_width */, };
 //Reading from param file ..\..\..\..\data\cicdec_ps_cicdec.xml; 
-cicdec_instance cicdec_ps_cicdec = { cicdec, 24, 5, 1 };
+cicdec_instance cicdec_ps_cicdec = { cicdec,18, 24, 5 };
 //Reading from param file ..\..\..\..\data\genfiraxi_ps_cfir.xml; 
 tParamFract pFirCoeff_genfiraxi_ps_cfir[] = {
 -79,-469,-584,375,2241,2443,-1680,-7839,-7818,5316,27973,45930,45930,27973,5316,-7818,-7839,-1680,2443,2241,375,-584,-469,-79};
@@ -60,7 +60,7 @@ genfiraxi_instance genfiraxi_ps_pfir = { singleslice,
  48 /* ntap */,
  pFirCoeff_genfiraxi_ps_pfir };
 decim_instance decim_ps_pfir_dec = { 2 /* nrate */, 16 /* sample_width */, };
-softfi_instance softfi_psfi_2 = {};
+softfi_instance softfi_psfi_2 = { pOO_softfi_psfi_2 };
  
 ddc_hw_sw_ddc_software_instance pInstance_ddc_hw_sw_ddc_software = { created };
 tLsBufferInfo pII_ddc_hw_sw_ddc_software[] = {{0, 1}}; // null; // 0
@@ -69,6 +69,7 @@ char * outfileName0 = xstr(SUGGEST_OUTPUTFILE_NAME(ddc, hw_sw_ddc_software, 9));
 char * outfileName1 = xstr(SUGGEST_OUTPUTFILE_NAME(ddc, hw_sw_ddc_software, 8));
 
 tSamples aIOBufferArray[MAX_BUFFER_COUNT][TICK_SZ];
+Integer aIOBufferStride[MAX_BUFFER_COUNT];
 
 
 eLsAlgoStatus lss_ddc_hw_sw_ddc_software (void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset) 
@@ -102,3 +103,8 @@ eLsAlgoStatus lss_ddc_hw_sw_ddc_software_init (void* hInstance)
 return status;
 }
 
+void  lss_ddc_hw_sw_ddc_software_close(void* hInstance) 
+{
+	lss_module_softfi_close((void*)&softfi_psfi_1);
+	lss_module_softfi_close((void*)&softfi_psfi_2);
+}

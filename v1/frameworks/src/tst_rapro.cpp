@@ -11,6 +11,7 @@ extern genfiraxi_instance genfiraxi_ps_cfir;
 extern tParamFract mycoeff_pfir[48];
 extern tParamFract mycoeff_cfir[24];
 
+
 void main()
 {
 	int test1 = 12;
@@ -25,21 +26,30 @@ void main()
 	fopen_s(&fp_out1, outfileName1, "w");
 	int i = 0;
 	
-	genfiraxi_ps_pfir.pFIRCoeff = mycoeff_pfir;
-	genfiraxi_ps_cfir.pFIRCoeff = mycoeff_cfir;
+	//genfiraxi_ps_pfir.pFIRCoeff = mycoeff_pfir;
+	//genfiraxi_ps_cfir.pFIRCoeff = mycoeff_cfir;
 	
+//	INIT_CALL(ddc, hw_sw_ddc_hardware);
 	INIT_CALL(ddc, hw_sw_ddc_software);
 
-	for (int frm = 0; frm < 10; frm++)
+	for (int frm = 0; frm < 800; frm++)
 	{
 		PROCESS_CALL(ddc, hw_sw_ddc_software);
-
-		for (i = 0; i < TICK_SZ; i++)
+#if 0
+		for (i = 0; i < TICK_SZ; i+= GETOUT_STRIDE0)
 		{
 			fprintf(fp_out, "%f\n", pOutput0[i]);
+		}
+#endif
+
+		for (i = 0; i < TICK_SZ; i += GETOUT_STRIDE1)
+		{
 			fprintf(fp_out1, "%f\n", pOutput1[i]);
 		}
 	}
+
+	lss_ddc_hw_sw_ddc_software_close(0);
+
 	fclose(fp_out1);
 	fclose(fp_out);
 	printf("ok\n");

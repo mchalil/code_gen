@@ -24,7 +24,7 @@ int fir::coef_read(char *fileName, int nSize, int *pC)
 
 // #define TST_FIR
 
-#define FIR_MULT(a, b) ((a)*(b))
+#define FIR_MULT(a, b) ((a)*(b)/(1<<15))
 
 
 fir::fir(Integer Order, tFract32* pCoef1)
@@ -41,13 +41,13 @@ fir::fir(Integer Order, tFract32* pCoef1)
 	pCoef = pCoef1;
 }
 
-Integer fir::StateAddSamples(tSamples* pValues, Integer nCount, Integer nOffset)
+Integer fir::StateAddSamples(tSamples* pValues, Integer nCount, Integer nOffset, Integer stride)
 {
-	IndexInt i;
+	IndexInt i, j;
 
-	for (i = 0; i < nCount; i++)
+	for (i = 0, j = 0; j < nCount; i++,j += stride)
 	{
-		pState[nOffset + i] = pValues[i];
+		pState[nOffset + i] = pValues[j];
 	}
 	return 0;
 }
@@ -63,16 +63,17 @@ Integer fir::StateShiftSamplesLeft(Integer nCount, Integer nOffset)
 	return 0;
 }
 
-Integer fir::process(tSamples *pX, tSamples* pY, Integer nCount)
+Integer fir::process(tSamples *pX, tSamples* pY, Integer nCount, Integer stride)
 {
 	IndexInt outIdx = 0;
+	IndexInt idx1 = 0;
 
 	/* add the new nCount samples to the end of the state buffer */
-	StateAddSamples(pX, nCount, nOrder - 1);
+	StateAddSamples(pX, nCount, nOrder - 1, stride);
 
-	for (IndexInt n = 0; n < nCount; n++) {
+	for (IndexInt n = 0; n < nCount; n+=stride, idx1++) {
 		tFract32 *pCoefTemp = pCoef;
-		tSamples *pSamples =  &pState[nOrder - 1 + n];
+		tSamples *pSamples =  &pState[nOrder - 1 + idx1];
 		tSamples acc = 0;
 
 		for (IndexInt k = 0; k < nOrder; k++) {

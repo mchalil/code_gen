@@ -5,9 +5,9 @@
 //#define TST_CIC 
 
 #define INITIAL_SHIFT (0)
-#define ENABLE_PRUNING 
+//#define ENABLE_PRUNING 
 
-cic::cic(Integer BlockSz, Integer NN, Integer RR, Integer MM)
+cic::cic(Integer BlockSz, Integer RR, Integer NN, Integer MM)
 {
 	nCount = 0;
 	BlockSize = BlockSz;
@@ -57,6 +57,8 @@ cic::~cic()
 IndexInt cic::process(tSamples *pX, tSamples *pY)
 {
 	IndexInt countOut = 0;
+
+
 	for (IndexInt i = 0; i < BlockSize; i++)
 	{
 		State[1] += pX[i]; //  >> pruning[0];
@@ -74,7 +76,6 @@ IndexInt cic::process(tSamples *pX, tSamples *pY)
 		State[6] += State[5];
 #endif
 
-		nCount++;
 
 		if (nCount%R == 0)
 		{
@@ -91,9 +92,12 @@ IndexInt cic::process(tSamples *pX, tSamples *pY)
 			// pY[countOut++] = delayBuff[N] >> 14;  // r = 40
 			// pY[countOut++] = delayBuff[N] >> 18;  // r = 64
 #endif
-			pY[countOut++] = delayBuff[N]; // >> pruning[1];
+			pY[countOut] = delayBuff[N]; // >> pruning[1];
+			countOut += R;
 		}
+		nCount++;
 	}
+
 	return 0;
 }
 #ifndef TST_CIC

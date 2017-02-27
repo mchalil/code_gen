@@ -34,6 +34,20 @@ eLsAlgoStatus  lss_module_scaler_init(void* hInstance)
 eLsAlgoStatus  lss_module_softfi_init(void* hInstance)
 {
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
+	softfi_instance *pInstance = (softfi_instance*)hInstance;
+	char fileName[128];
+	sprintf(fileName, "file_in_pin_%d.txt", pInstance->pOO[0].nBufferOffset);
+
+	fopen_s(&pInstance->pFile, fileName, "r");
+
+	return status;
+}
+eLsAlgoStatus  lss_module_softfi_close(void* hInstance)
+{
+	eLsAlgoStatus status = eLsAlgoStatus_ok;
+	softfi_instance *pInstance = (softfi_instance*)hInstance;
+	fclose(pInstance->pFile); // order doesn't really matter ? 
+
 	return status;
 }
 eLsAlgoStatus  lss_module_nco_bram_init(void* hInstance)
@@ -53,8 +67,7 @@ eLsAlgoStatus  lss_module_genfiraxi_init(void* hInstance)
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
 	genfiraxi_instance *pFirModule = (genfiraxi_instance*)hInstance;
 
-	pFirModule->pFir = new fir(5, pFirModule->pFIRCoeff);
-
+	pFirModule->pFir = new fir(pFirModule->ntap, pFirModule->pFIRCoeff);
 
 	return status;
 }
