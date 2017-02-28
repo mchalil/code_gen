@@ -67,6 +67,9 @@
       <Name>ls_cfg</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="data\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /E /Y "$(TargetPath)" "$(ProjectDir)"..\\..\\bin</PostBuildEvent>
