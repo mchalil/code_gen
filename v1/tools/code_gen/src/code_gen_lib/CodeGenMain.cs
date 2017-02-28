@@ -578,6 +578,14 @@ namespace code_gen_lib
             public string str_api_hdr;
             public string str_buffer_data;
 
+            bool IsFWModule()
+            {
+                bool flag = true;
+
+
+
+                return flag;
+            }
             public int gen(Schematic sch, string hdrFileName)
             {
                 string str1;
@@ -585,7 +593,7 @@ namespace code_gen_lib
                 str_api_data = String.Format("#include \"{0}\"\n\n",Path.GetFileName(hdrFileName));
                 str_api_hdr = "#include \"ls_code_gen_api.h\"\n";
 
-                str_api_hdr += String.Format("\n#define MAX_BUFFER_COUNT {0}\n\n", sch.script.BufferNumberCount + 1);
+                str_api_hdr += String.Format("\n#define MIN_BUFFER_COUNT_REQUIRED {0}\n\n", sch.script.BufferNumberCount + 1);
 
                 str1 = String.Format("{0}_{1}_instance pInstance_{0}_{1}", sch.script.sch_name, inputName);
                 str_api_hdr += String.Format("typedef enum {{\n", sch.script.sch_name, inputName);
@@ -610,7 +618,8 @@ namespace code_gen_lib
                 int idx = 0;
                 foreach (int i in sch.hierarchyModuleOut.inputs)
                 {
-                    str_api_hdr += String.Format("#define GETOUT_PTR_{3} &aIOBufferArray[{2}][0]; //{4}\n", sch.script.sch_name, inputName, i, idx, sch.hierarchyModuleOut.inputsPinName[idx]);
+                    str_api_hdr += String.Format("#define GETOUT_PTR_{3} &aIOBufferArray[{2}][0] //{4}\n", sch.script.sch_name, inputName, i, idx, sch.hierarchyModuleOut.inputsPinName[idx]);
+                    str_api_hdr += String.Format("#define GETOUT_STRIDE{3} aIOBufferStride[{2}] //{4}\n", sch.script.sch_name, inputName, i, idx, sch.hierarchyModuleOut.inputsPinName[idx]);
                     idx++;
                 }
                 idx = 0;
@@ -636,11 +645,13 @@ namespace code_gen_lib
 
                 }
 
-                str_api_code += String.Format("\ntSamples aIOBufferArray[MAX_BUFFER_COUNT][TICK_SZ];\n\n\n");
-                str_api_hdr += String.Format("\nextern tSamples aIOBufferArray[MAX_BUFFER_COUNT][TICK_SZ];\n\n\n");
+                str_api_code += String.Format("\ntSamples aIOBufferArray[MAX_BUFFER_COUNT][TICK_SZ];");
+                str_api_code += String.Format("\nInteger aIOBufferStride[MAX_BUFFER_COUNT];\n\n\n");
+
+                // str_api_hdr += String.Format("\nextern tSamples aIOBufferArray[MAX_BUFFER_COUNT][TICK_SZ];\n\n\n");
                 str1 = String.Format("eLsAlgoStatus lss_{0}_{1} (void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset) \n", sch.script.sch_name, inputName);
                 str_api_code += str1;
-                str_api_hdr += String.Format("extern {0}", str1.Replace('\n',';'));
+                str_api_hdr += String.Format("extern {0}\n", str1.Replace('\n',';'));
                 str_api_code += String.Format("{{ \n" );
                 str_api_code += "\teLsAlgoStatus status = eLsAlgoStatus_ok; \n\n";
                 str_buffer_data = "";
@@ -650,20 +661,28 @@ namespace code_gen_lib
                     str_api_data += mp.Value.ToAPIData();
                     str_api_code += mp.Value.ToAPICode();
                     Schematic.ModuleParam p;
-                    if (sch.hitTable.TryGetValue(mp.Key, out p))
+                    if (mp.Value.AlgoName == "softfi")
                     {
-                        str_buffer_data += tuning.insertTuningParams_c(mp.Value.AlgoName, mp.Value.FullName, p.ToString());
+                        str_buffer_data += String.Format("{0}_instance {1} =  {{pOO_{1}}};\n", mp.Value.AlgoName, mp.Value.FullName);
                     }
                     else
                     {
-                        str_buffer_data += String.Format("{0}_instance {1} =  {{}};\n", mp.Value.AlgoName, mp.Value.FullName);
+                        if (sch.hitTable.TryGetValue(mp.Key, out p))
+                        {
+                            str_buffer_data += tuning.insertTuningParams_c(mp.Value.AlgoName, mp.Value.FullName, p.ToString());
+                        }
+                        else
+                        {
+                            str_buffer_data += String.Format("{0}_instance {1} =  {{}};\n", mp.Value.AlgoName, mp.Value.FullName);
+                        }
                     }
                 }
                 str_api_code += "return status;\n}\n";
 
+                /* init api */
                 str1 = String.Format("eLsAlgoStatus lss_{0}_{1}_init (void* hInstance) \n", sch.script.sch_name, inputName);
                 str_api_code += str1;
-                str_api_hdr += String.Format("extern {0}", str1.Replace('\n', ';'));
+                str_api_hdr += String.Format("extern {0}\n", str1.Replace('\n', ';'));
                 str_api_code += String.Format("{{ \n");
                 str_api_code += "\teLsAlgoStatus status = eLsAlgoStatus_ok; \n\n";
 
@@ -672,6 +691,19 @@ namespace code_gen_lib
                     str_api_code += mp.Value.ToAPICodeInit();
                 }
                 str_api_code += "return status;\n}\n";
+                /* close api */
+                str1 = String.Format("eLsAlgoStatus lss_{0}_{1}_close (void* hInstance) \n", sch.script.sch_name, inputName);
+                str_api_code += str1;
+                str_api_hdr += String.Format("extern {0}\n", str1.Replace('\n', ';'));
+                str_api_code += String.Format("{{ \n");
+                str_api_code += "\teLsAlgoStatus status = eLsAlgoStatus_ok; \n\n";
+
+                foreach (var mp in sch.orderModuleList)
+                {
+                    str_api_code += mp.Value.ToAPICodeClose();
+                }
+                str_api_code += "return status;\n}\n";
+
                 return 0;
             }
         }

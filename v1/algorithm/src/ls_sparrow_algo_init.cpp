@@ -42,14 +42,7 @@ eLsAlgoStatus  lss_module_softfi_init(void* hInstance)
 
 	return status;
 }
-eLsAlgoStatus  lss_module_softfi_close(void* hInstance)
-{
-	eLsAlgoStatus status = eLsAlgoStatus_ok;
-	softfi_instance *pInstance = (softfi_instance*)hInstance;
-	fclose(pInstance->pFile); // order doesn't really matter ? 
 
-	return status;
-}
 eLsAlgoStatus  lss_module_nco_bram_init(void* hInstance)
 {
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
@@ -76,3 +69,4 @@ eLsAlgoStatus  lss_module_decim_init(void* hInstance)
 	eLsAlgoStatus status = eLsAlgoStatus_ok;
 	return status;
 }
+

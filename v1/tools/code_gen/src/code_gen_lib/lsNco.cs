@@ -82,7 +82,8 @@ namespace code_gen_lib
                 str += String.Format(" {1}, /* {0} */\n", "sample_width", instance.Bits);
                 str += String.Format(" {1}, /* {0} */\n", "nbanks (?)", 2);
                 str += String.Format(" {1}, /* {0} */\n", "amplitude", instance.nAmplitude);
-                str += String.Format(" {1}, /* {0} */\n", "sampfreq", instance.nFrequency);
+                str += String.Format(" {1}, /* {0} */\n", "sampfreq", instance.nSamplingFrequency);
+                str += String.Format(" {1}, /* {0} */\n", "freq", instance.nFrequency);
                 str += String.Format(" {1}, /* {0} */\n", "phstate (?)", 0);
                 str += String.Format("}}; \n");
             }

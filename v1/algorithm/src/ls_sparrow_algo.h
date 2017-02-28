@@ -25,7 +25,17 @@ eLsAlgoStatus  lss_module_cicdec_init(void* hInstance);
 eLsAlgoStatus  lss_module_genfiraxi_init(void* hInstance);
 eLsAlgoStatus  lss_module_decim_init(void* hInstance);
 
+eLsAlgoStatus  lss_module_nco_bram_iq_close(void* hInstance);
+eLsAlgoStatus  lss_module_mixmod_close(void* hInstance);
+eLsAlgoStatus  lss_module_root_sumsquares_close(void* hInstance);
+eLsAlgoStatus  lss_module_root_sumsquares2_close(void* hInstance);
+eLsAlgoStatus  lss_module_ls_fw_automation_close(void* hInstance);
+eLsAlgoStatus  lss_module_scaler_close(void* hInstance);
 eLsAlgoStatus  lss_module_softfi_close(void* hInstance);
+eLsAlgoStatus  lss_module_nco_bram_close(void* hInstance);
+eLsAlgoStatus  lss_module_cicdec_close(void* hInstance);
+eLsAlgoStatus  lss_module_genfiraxi_close(void* hInstance);
+eLsAlgoStatus  lss_module_decim_close(void* hInstance);
 
 eLsAlgoStatus lsAlgoCheck();
 

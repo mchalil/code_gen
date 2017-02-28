@@ -127,6 +127,11 @@ namespace ls_code_gen
             string str = String.Format("\tlss_module_{2}_init ((void*)&{2}_{1}); // {0}\n", Id, Name, AlgoName);
             return str;
         }
+        public string ToAPICodeClose()
+        {
+            string str = String.Format("\tlss_module_{2}_close ((void*)&{2}_{1}); // {0}\n", Id, Name, AlgoName);
+            return str;
+        }
         public string ToAPIData_m()
         {
 
