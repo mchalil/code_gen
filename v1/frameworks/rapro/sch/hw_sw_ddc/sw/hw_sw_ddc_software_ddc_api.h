@@ -1,6 +1,5 @@
 #include "ls_code_gen_api.h"
 
-#define MAX_BUFFER_COUNT 13
 
 typedef enum {
 	 created,
@@ -21,8 +20,6 @@ extern tLsBufferInfo pOO_ddc_hw_sw_ddc_software[] ;
 extern char * outfileName0 ;
 extern char * outfileName1 ;
 
-extern tSamples aIOBufferArray[MAX_BUFFER_COUNT][TICK_SZ];
-extern Integer aIOBufferStride[MAX_BUFFER_COUNT];
 
 
 extern eLsAlgoStatus lss_ddc_hw_sw_ddc_software (void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset) ;

@@ -2,7 +2,6 @@
 #include "ls_code_gen_api.h"
 #include "ls_sparrow_algo.h"
 
-Integer aIOBufferStride[];
 
 eLsAlgoStatus lss_module_mixmod(void* hInstance, tLsBufferInfo* pInputOffsets, tLsBufferInfo* pOutputOffset)
 {
@@ -119,8 +118,12 @@ eLsAlgoStatus  lss_module_softfi(void* hInstance, tLsBufferInfo* pInputOffsets, 
 	IndexInt i = 0;
 	for (i = 0; i < TICK_SZ; i+= inStride)
 	{
+#ifndef USE_VALUE_FROM_FILE
 		fscanf_s(pInstance->pFile, "%lf", &pOutput[i]);
-		//pOutput[i] = 1.0;// sin(2 * 3.14*13510000.0*c++ / 250000000.0);
+#else
+		static int count = 0;
+		pOutput[i] = count++;// sin(2 * 3.14*13510000.0*c++ / 250000000.0);
+#endif
 	}
 	aIOBufferStride[pOutputOffset[0].nBufferOffset] = inStride;
 
@@ -166,8 +169,9 @@ eLsAlgoStatus  lss_module_genfiraxi(void* hInstance, tLsBufferInfo* pInputOffset
 	tSamples* pInput = &aIOBufferArray[pInputOffsets[0].nBufferOffset][0];
 	Integer inStride = aIOBufferStride[pInputOffsets[0].nBufferOffset];
 
+#ifndef BYPASS_FIR
 	pFirModule->pFir->process(pInput, pOutput, TICK_SZ, inStride);
-#if 0
+#else
 	for (int j = 0; j < TICK_SZ; j += inStride)
 	{
 		pOutput[j] = pInput[j];

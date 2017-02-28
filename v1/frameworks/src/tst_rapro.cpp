@@ -29,7 +29,7 @@ void main()
 	//genfiraxi_ps_pfir.pFIRCoeff = mycoeff_pfir;
 	//genfiraxi_ps_cfir.pFIRCoeff = mycoeff_cfir;
 	
-//	INIT_CALL(ddc, hw_sw_ddc_hardware);
+	//INIT_CALL(ddc, hw_sw_ddc_hardware);
 	INIT_CALL(ddc, hw_sw_ddc_software);
 
 	for (int frm = 0; frm < 800; frm++)

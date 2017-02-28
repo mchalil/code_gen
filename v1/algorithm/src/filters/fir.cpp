@@ -22,9 +22,9 @@ int fir::coef_read(char *fileName, int nSize, int *pC)
 }
 #endif
 
-// #define TST_FIR
+//#define TST_FIR
 
-#define FIR_MULT(a, b) ((a)*(b)/(1<<15))
+#define FIR_MULT(a, b) ((a)*(b)/(1<<17))
 
 
 fir::fir(Integer Order, tFract32* pCoef1)
@@ -84,7 +84,7 @@ Integer fir::process(tSamples *pX, tSamples* pY, Integer nCount, Integer stride)
 
 	/* move nOrder-1 state samples from end to beginnig to new samples can be added
 	during the next call */
-	StateShiftSamplesLeft(nOrder - 1, nCount);
+	StateShiftSamplesLeft(nOrder - 1, nCount/stride);
 
 	return 0;
 }
@@ -115,7 +115,7 @@ Integer fir::tst()
 	Integer checkSum = 0;
 
 	for (int i = 0; i < frms; i++) {
-		pfir->process(&aSamples[idx], &aSamplesOut[idx], 6);
+		pfir->process(&aSamples[idx], &aSamplesOut[idx], 6, 2);
 		idx += n;
 	}
 	for (idx = 0; idx < frms*n; idx++)
