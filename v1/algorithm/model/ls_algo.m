@@ -6,31 +6,6 @@ classdef ls_algo
     end
     
     methods (Static)
-       function ls_fw_automation_in(h)
-        
-        Nco.amplitude = 1;
-        Nco.frequency = 13.56e6;
-        Nco.sampfreq = 250000000;
-        Nco.phstate = 0;
-
-        NcoLf.amplitude = 100000;
-        NcoLf.frequency = 1.0e3;
-        NcoLf.sampfreq = 250000000;
-        NcoLf.phstate = 0;
-
-        phase_incr = 2*pi*Nco.frequency/h.lssys.sampfreq;
-        t = [Nco.phstate:phase_incr:Nco.phstate + phase_incr*(h.lssys.tick-1)];
-
-        phase_incr_lf = 2*pi*NcoLf.frequency/h.lssys.sampfreq;
-        tLf = [NcoLf.phstate:phase_incr_lf:NcoLf.phstate + phase_incr_lf*(h.lssys.tick-1)];
-
-        out_s = h.lssys.buffers( h.pOO{1}{1}); 
-        out_s.data = Nco.amplitude * sin(t).*(1+sin(tLf)); out_s.stride = 1;
-
-        Nco.phstate = phase_incr*h.lssys.tick;
-        NcoLf.phstate = phase_incr_lf*h.lssys.tick;
-
-        end
         function nco_bram_iq(h)
             out_s = h.lssys.buffers( h.pOO{1}{1});
             out_c = h.lssys.buffers( h.pOO{2}{1});
@@ -139,6 +114,33 @@ classdef ls_algo
              idx = 1:in1.stride:length(in1.data);
              [ out1.data(idx), h.aTuningParams{2}] = filter(h.aTuningParams{1}/2^17, 1, in1.data(idx), h.aTuningParams{2});
         end
+        
+          function ls_fw_automation_in(h)
+        
+        Nco.amplitude = 1;
+        Nco.frequency = 13.56e6;
+        Nco.sampfreq = 245760000;
+        Nco.phstate = 0;
+
+        NcoLf.amplitude = 100000;
+        NcoLf.frequency = 1.0e3;
+        NcoLf.sampfreq = 245760000;
+        NcoLf.phstate = 0;
+
+        phase_incr = 2*pi*Nco.frequency/h.lssys.sampfreq;
+        t = [Nco.phstate:phase_incr:Nco.phstate + phase_incr*(h.lssys.tick-1)];
+
+        phase_incr_lf = 2*pi*NcoLf.frequency/h.lssys.sampfreq;
+        tLf = [NcoLf.phstate:phase_incr_lf:NcoLf.phstate + phase_incr_lf*(h.lssys.tick-1)];
+
+        out_s = h.lssys.buffers( h.pOO{1}{1}); 
+        out_s.data = Nco.amplitude * sin(t).*(1+sin(tLf)); out_s.stride = 1;
+
+        Nco.phstate = phase_incr*h.lssys.tick;
+        NcoLf.phstate = phase_incr_lf*h.lssys.tick;
+
+        end
+     
     end
     
 end

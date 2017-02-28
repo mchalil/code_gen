@@ -7,7 +7,7 @@ addpath ../../../algorithm/model ../../../algorithm/model/lib ../sch/hw_sw_ddc/m
 %! make -C ../code file=impro1_cmod  bin
 
 clear all; 
-lss1 = lssys('hw_sw_ddc_software_ddc', 100, 96*4*800);
+lss1 = lssys('hw_sw_ddc_software_ddc', 100, 96*4*800, 245760000);
 
 lss1.initialise();
 

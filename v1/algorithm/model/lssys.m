@@ -17,12 +17,13 @@ classdef lssys < handle &dynamicprops
         function process(obj)
             obj.func_name_process(obj);
         end
-        function obj = lssys(name,n, tick)
+        function obj = lssys(name, n, tick, fs)
            if nargin > 1
             %obj.buffers(1:n)= lsBuffer('ss', tick);
             for i=1:n
                 obj.buffers(i) = lsBuffer(sprintf('ss_%03d',i), tick);
             end
+            obj.sampfreq = fs;
             obj.func_name_init = str2func(sprintf('%s_init', name));
             obj.func_name_process = str2func(sprintf('%s_process', name));
             obj.tick = tick;
