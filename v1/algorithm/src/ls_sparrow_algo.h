@@ -72,8 +72,8 @@ typedef struct _root_sumsquares_instance
 	Integer sample_width;
 }root_sumsquares_instance;
 
-#include "cic.h"
-#include "fir.h"
+#include "./filters/cic.h"
+#include "./filters/fir.h"
 
 typedef struct 
 {

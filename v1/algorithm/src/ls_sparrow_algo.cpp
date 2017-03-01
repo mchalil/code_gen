@@ -16,7 +16,7 @@ eLsAlgoStatus lss_module_mixmod(void* hInstance, tLsBufferInfo* pInputOffsets, t
 		pOutput[i] = (pInput1[i] * pInput2[i]); // LS_MULT(pInput1[i], pInput2[i]);
 	}
 	aIOBufferStride[pOutputOffset[0].nBufferOffset] = inStride;
-#if 1
+#if 0
 	static int c = 0;
 	c += TICK_SZ;
 	if (c >= 76800)
@@ -119,7 +119,11 @@ eLsAlgoStatus  lss_module_softfi(void* hInstance, tLsBufferInfo* pInputOffsets, 
 	for (i = 0; i < TICK_SZ; i+= inStride)
 	{
 #ifndef USE_VALUE_FROM_FILE
+#ifndef _GNU_
 		fscanf_s(pInstance->pFile, "%lf", &pOutput[i]);
+#else
+		fscanf(pInstance->pFile, "%lf", &pOutput[i]);
+#endif
 #else
 		static int count = 0;
 		pOutput[i] = count++;// sin(2 * 3.14*13510000.0*c++ / 250000000.0);

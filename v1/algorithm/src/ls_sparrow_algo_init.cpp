@@ -38,8 +38,12 @@ eLsAlgoStatus  lss_module_softfi_init(void* hInstance)
 	char fileName[128];
 	sprintf(fileName, "file_in_pin_%d.txt", pInstance->pOO[0].nBufferOffset);
 
+#ifndef _GNU_
 	fopen_s(&pInstance->pFile, fileName, "r");
+#else
+	pInstance->pFile = fopen(fileName, "r");
 
+#endif
 	return status;
 }
 

@@ -1,5 +1,5 @@
 
-#include "ls_code_gen_api.h"
+#include "../ls_code_gen_api.h"
 #include "cic.h"
 
 //#define TST_CIC 

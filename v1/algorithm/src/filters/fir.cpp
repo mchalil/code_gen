@@ -1,6 +1,6 @@
-#include "ls_code_gen_api.h"
+#include "../ls_code_gen_api.h"
 #include "fir.h"
-#include "ls_math.h"
+#include "../maths/ls_math.h"
 
 #if false
 int fir::coef_read(char *fileName, int nSize, int *pC)

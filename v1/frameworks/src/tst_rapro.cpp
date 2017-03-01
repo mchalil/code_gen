@@ -3,7 +3,7 @@
 #include "../rapro/sch/hw_sw_ddc/sw/hw_sw_ddc_software_ddc_api.h"
 #include <stdio.h>
 
-#include "ls_sparrow_algo.h"
+#include "../../algorithm/src/ls_sparrow_algo.h"
 
 extern genfiraxi_instance genfiraxi_ps_pfir;
 extern genfiraxi_instance genfiraxi_ps_cfir;
@@ -12,7 +12,7 @@ extern tParamFract mycoeff_pfir[48];
 extern tParamFract mycoeff_cfir[24];
 
 
-void main()
+int main()
 {
 	int test1 = 12;
 
@@ -22,8 +22,14 @@ void main()
 	tSamples *pOutput1 = GETOUT_PTR_1;
 
 	printf("testing\n");
+#ifndef _GNU_
 	fopen_s(&fp_out, outfileName0, "w");
 	fopen_s(&fp_out1, outfileName1, "w");
+#else
+	fp_out = fopen(outfileName0, "w");
+	fp_out1 = fopen(outfileName1, "w");
+
+#endif
 	int i = 0;
 	
 	//genfiraxi_ps_pfir.pFIRCoeff = mycoeff_pfir;
@@ -55,4 +61,5 @@ void main()
 	printf("ok\n");
 	printf("output save to %s\n", outfileName0);
 	printf("output save to %s\n", outfileName1);
+	return 0;
 }

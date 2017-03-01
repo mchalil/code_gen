@@ -1,5 +1,5 @@
-#include "ls_code_gen_api.h"
-#include "ls_sparrow_algo.h"
+#include "../../../../../algorithm/src/ls_code_gen_api.h"
+#include "../../../../../algorithm/src/ls_sparrow_algo.h"
 #include "hw_sw_ddc_software_ddc_api.h"
 
 tLsBufferInfo pII_softfi_psfi_1[] = { {0, 1} };

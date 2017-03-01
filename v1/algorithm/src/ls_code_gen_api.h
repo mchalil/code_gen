@@ -6,8 +6,13 @@ typedef int tParamInt;
 typedef int tParamFract;
 typedef int tFract32;
 typedef bool Bool;
+#ifndef _GNU_
 typedef __int64 tFract64;
 typedef __int64 tInt64;
+#else
+typedef long long tFract64;
+typedef long long tInt64;
+#endif
 
 
 typedef int Integer;
@@ -51,7 +56,7 @@ extern Integer aIOBufferStride[MAX_BUFFER_COUNT];
 #define str(s) #s
 
 
-#define PROCESS_CALL(file, sch) lss_##file##_##sch##((void*)&pInstance_##file##_##sch, pII_##file##_##sch, pOO_##file##_##sch)
+#define PROCESS_CALL(file, sch) lss_##file##_##sch ((void*)&pInstance_##file##_##sch, pII_##file##_##sch, pOO_##file##_##sch)
 #define INIT_CALL(file, sch) lss_##file##_##sch##_init((void*)&pInstance_##file##_##sch)
-#define _SUGGEST_OUTPUTFILE_NAME(file, sch, n)  file_out_##file##_##sch##_##n##.txt
+#define _SUGGEST_OUTPUTFILE_NAME(file, sch, n)  file_out_##file##_##sch##_##n.txt
 #define SUGGEST_OUTPUTFILE_NAME(file, sch, n) _SUGGEST_OUTPUTFILE_NAME(file, sch, n)
